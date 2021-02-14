@@ -1,0 +1,22 @@
+.container {
+  background-color: rgb(232, 247, 241);
+  height: 100px;
+}
+
+.title {
+  color: rgb(76, 236, 124);
+  margin: 0;
+  text-align: center;
+}
+
+.routes {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: 30px;
+}
+
+.rout {
+  font-size: 20px;
+  margin-right: 20px;
+}
