@@ -5,16 +5,16 @@ import styles from './Header.module.css'
 const Header = () => {
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>fodolist</h1>
+      <h1 className={styles.title}>foodolist</h1>
 
       <div className={styles.routes}>
         <Link href="/header/about">
-      <a className={styles.rout}>About</a>
-      </Link>
+        <a className={styles.rout}>About</a>
+        </Link>
 
-      <Link href="/header/help">
-        <a className={styles.rout}>Help</a>
-      </Link>
+        <Link href="/header/help">
+          <a className={styles.rout}>Help</a>
+        </Link>
       </div>
       
     </div>
