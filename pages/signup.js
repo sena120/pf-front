@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Header from '../components/Header'
-
 import { auth } from '../utils/firebase'
 import { AuthContext } from '../auth/AuthProvider'
 
 const SignUp = () => {
   const router = useRouter()
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -28,37 +28,46 @@ const SignUp = () => {
   }
 
   return (
-    <div className="wrapper">
+    <div>
     <Header/>
-      <form className="auth" onSubmit={createUser}>
+      <form onSubmit={createUser}>
         <div>
-          <label htmlFor="email" className="auth-label">
-            Email:{' '}
+          <label htmlFor="name" >
+            ユーザー名:{' '}
+          </label>
+          <input
+            id="name"
+            type="name"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="email" >
+            メール:{' '}
           </label>
           <input
             id="email"
-            className="auth-input"
             type="email"
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mt-2">
-          <label htmlFor="password" className="auth-label">
-            Password:{' '}
+        <div>
+          <label htmlFor="password">
+            パスワード:{' '}
           </label>
           <input
             id="password"
-            className="auth-input"
+            
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button className="auth-btn" type="submit">
-          SignUp
+        <button type="submit">
+          登録
         </button>
       </form>
       <Link href="/login">
-        <a className="auth-link">Login</a>
+        <a>ログインページへ</a>
       </Link>
     </div>
   )

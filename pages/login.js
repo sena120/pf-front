@@ -56,7 +56,7 @@ const Login = () => {
         </button>
       </form>
       <Link href="/signup">
-        <a className="auth-link">新規登録</a>
+        <a className="auth-link">アカウント作成</a>
       </Link>
     </div>
   )

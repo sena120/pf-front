@@ -565,6 +565,13 @@
   "resolved" "https://registry.yarnpkg.com/ast-types/-/ast-types-0.13.2.tgz"
   "version" "0.13.2"
 
+"axios@^0.21.1":
+  "integrity" "sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA=="
+  "resolved" "https://registry.npmjs.org/axios/-/axios-0.21.1.tgz"
+  "version" "0.21.1"
+  dependencies:
+    "follow-redirects" "^1.10.0"
+
 "babel-plugin-syntax-jsx@6.18.0":
   "integrity" "sha1-CvMqmm4Tyno/1QaeYtew9Y0NiUY="
   "resolved" "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz"
@@ -1260,6 +1267,11 @@
     "@firebase/remote-config" "0.1.30"
     "@firebase/storage" "0.4.2"
     "@firebase/util" "0.3.4"
+
+"follow-redirects@^1.10.0":
+  "integrity" "sha512-6mPTgLxYm3r6Bkkg0vNM0HTjfGrOEtsfbhagQvbxDEsEkpNhw582upBaoRZylzen6krEmxXJgt9Ju6HiI4O7BA=="
+  "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.13.2.tgz"
+  "version" "1.13.2"
 
 "fs-constants@^1.0.0":
   "integrity" "sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow=="
