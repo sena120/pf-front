@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Header from '../components/Header'
+import styles from '../styles/utils.module.css'
 import { useRouter } from 'next/router'
 import { auth } from '../utils/firebase'
 
@@ -26,38 +27,37 @@ const Login = () => {
   }
 
   return (
-    <div className="wrapper">
+    <div>
     <Header/>
-      <form className="auth" onSubmit={logIn}>
-        <div>
-          <label htmlFor="email" className="auth-label">
-            Email:{' '}
-          </label>
-          <input
-            id="email"
-            className="auth-input"
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="mt-2">
-          <label htmlFor="password" className="auth-label">
-            Password:{' '}
-          </label>
-          <input
-            id="password"
-            className="auth-input"
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button className="auth-btn" type="submit">
-          Login
-        </button>
-      </form>
-      <Link href="/signup">
-        <a className="auth-link">アカウント作成</a>
-      </Link>
+      <div className={styles.userForm}>
+        <h2 className={styles.userformTitle}>foodlistにログイン</h2>
+          <form onSubmit={logIn} className={styles.userforms}>
+            <div>
+              <input
+                id="email"
+                type="email"
+                className={styles.userform}
+                placeholder="メールアドレス"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                id="password"
+                type="password"
+                className={styles.userform}
+                placeholder="パスワード"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit" className={styles.userbutton}>
+              ログイン
+            </button>
+          </form>
+        <Link href="/signup">
+          <a className={styles.userlink}>アカウント作成</a>
+        </Link>
+      </div>
     </div>
   )
 }

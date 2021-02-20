@@ -7,7 +7,7 @@ const lists = () => {
   const [apiData, setApiData] = useState(null)
 
   useEffect(() => {
-    axios.get('http://localhost:3001/users')
+    axios.get('http://localhost:3001/users/', {params: {email: "bisuke@kfj.com"}})
     .then((results) => {
       console.log(results)
       setApiData(results.data)
