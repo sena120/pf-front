@@ -1,15 +1,15 @@
-import Link from 'next/link'
-import React from 'react'
-import styles from './Header.module.css'
+import Link from "next/link"
+import React from "react"
+import styles from "./Components.module.css"
 
-const Header = () => {
+function Header() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>foodlist</h1>
 
       <div className={styles.routes}>
         <Link href="/header/about">
-        <a className={styles.rout}>About</a>
+          <a className={styles.rout}>About</a>
         </Link>
 
         <Link href="/header/help">

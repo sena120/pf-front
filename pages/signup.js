@@ -35,13 +35,13 @@ const SignUp = () => {
     <Header/>
     <div className={styles.userForm}>
     <h2 className={styles.userformTitle}>アカウントを作成</h2>
-      <form onSubmit={createUser} className={styles.userforms}>
+      <form onSubmit={createUser}>
         <div>
           <input
             id="name"
             name="user[name]"
             type="text"
-            className={styles.userform}
+            className={styles.userinput}
             placeholder="ユーザーネーム"
             onChange={(e) => setName(e.target.value)}
           />
@@ -51,7 +51,7 @@ const SignUp = () => {
             id="email"
             name="user[email]"
             type="email"
-            className={styles.userform}
+            className={styles.userinput}
             placeholder="メールアドレス"
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -60,7 +60,7 @@ const SignUp = () => {
           <input
             id="password"
             type="password"
-            className={styles.userform}
+            className={styles.userinput}
             placeholder="パスワード"
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -75,7 +75,10 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div> */}
-        <button type="submit" className={styles.userbutton}>
+        <button 
+          type="submit" 
+          className={styles.userbutton}
+          disabled={!name || !email || !password}>
           登録
         </button>
       </form>

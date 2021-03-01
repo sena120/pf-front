@@ -31,12 +31,12 @@ const Login = () => {
     <Header/>
       <div className={styles.userForm}>
         <h2 className={styles.userformTitle}>foodlistにログイン</h2>
-          <form onSubmit={logIn} className={styles.userforms}>
+          <form onSubmit={logIn}>
             <div>
               <input
                 id="email"
                 type="email"
-                className={styles.userform}
+                className={styles.userinput}
                 placeholder="メールアドレス"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -45,12 +45,14 @@ const Login = () => {
               <input
                 id="password"
                 type="password"
-                className={styles.userform}
+                className={styles.userinput}
                 placeholder="パスワード"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <button type="submit" className={styles.userbutton}>
+            <button type="submit" 
+              className={styles.userbutton} 
+              disabled={!email || !password}>
               ログイン
             </button>
           </form>

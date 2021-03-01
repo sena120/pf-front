@@ -1,0 +1,59 @@
+/* Listsflame_styles */
+.listsContainer {
+  width: 30%;
+  border: 1px solid;
+}
+
+.listTitle {
+  margin: 0;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.categorys {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+/* Panels */
+.ul {
+  padding: 0;
+}
+
+/* items */
+.item {
+  list-style: none;
+  border: 1px solid;
+  height: 40px;
+  font-size: 120%;
+}
+
+/* Header_styles */
+.container {
+  background-color: rgb(192, 253, 184);
+  height: 100px;
+}
+
+.title {
+  color: rgb(76, 236, 124);
+  font-size: 50px;
+  margin: 0;
+  text-align: center;
+}
+
+.routes {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  /* margin-top: 30px; */
+}
+
+.rout {
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.rout:hover {
+  text-decoration: underline;
+}
