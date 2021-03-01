@@ -76,7 +76,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.listsContainer}>
+      <div className={styles.listsContainer} onClick={select}>
         {/* <Listsflame type="Menu" categorys={menuLists} /> */}
         <Listsflame
           type="Food"
@@ -84,7 +84,6 @@ export default function Home() {
           select={category}
           add={addState}
           selectCategory={selectCategory}
-          onClick={select}
         />
         <Listsflame
           type="Buy"
