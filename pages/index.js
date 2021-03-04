@@ -1,49 +1,67 @@
-import { useEffect, useState, useCallback } from "react"
-import { useRouter } from "next/router"
-import { auth } from "../utils/firebase"
-import Link from "next/link"
-import Header from "../components/Header"
-import axios from "axios"
-import Listsflame from "../components/Listsflame"
-import styles from "../styles/utils.module.css"
+import { useEffect, useState, useCallback } from 'react'
+import { useRouter } from 'next/router'
+import { auth } from '../utils/firebase'
+import Link from 'next/link'
+import axios from 'axios'
+import Listsflame from '../components/Listsflame'
+import styles from '../styles/utils.module.css'
 
 export default function Home() {
   const router = useRouter()
-  const [menuLists, setMenuLists] = useState([])
-  const [foodLists, setFoodLists] = useState([])
-  const [buyLists, setBuyLists] = useState([])
-  const [selectList, setSelectList] = useState("")
-  const [selectCategory, setSelectCategory] = useState("")
-  const [addState, setAddState] = useState(false)
+  const [userId, setUserId] = useState()
+  const [menuLists, setMenuLists] = useState([]) //APIから取得したmenulistのデータ
+  const [foodLists, setFoodLists] = useState([]) //APIから取得したfoodlistのデータ
+  const [buyLists, setBuyLists] = useState([]) //APIから取得したbuylistのデータ
+  const [selectedList, setSelectedList] = useState('Food') //現在選択されているListを判断する
+  const [selectedCategory, setSelectedCategory] = useState() //現在選択されているCategoryを判断する
+  const [addState, setAddState] = useState(false) //ListItemを追加するformの状態
   // const [currentUser, setCurrentUser] = useState(null)
 
+  //初回のレンダーでAPIからデータを取得
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         // setCurrentUser(user)
         // const userMail = user.email
         axios
-          .get("http://localhost:3001/users", {
-            params: { email: "test@co.jp" },
+          .get('http://localhost:3001/users', {
+            params: { email: 'test@co.jp' },
           })
           .then((results) => {
             console.log(results.data.data)
+            setUserId(results.data.data.id)
             // setMenuLists(results.data.data.menulists)
             setFoodLists(results.data.data.foodlists)
             setBuyLists(results.data.data.buylists)
           })
       } else {
-        router.push("/login")
+        router.push('/login')
       }
     })
   }, [])
 
-  const select = () => {
-    setSelectList("food")
+  //カテゴリ、アイテムの変更を処理する。
+  const changeListsState = (newData) => {
+    if (selectedList === 'Menu') {
+      return setMenuLists(newData)
+    }
+    if (selectedList === 'Food') {
+      return setFoodLists(newData)
+    }
+    if (selectedList === 'Buy') {
+      return setBuyLists(newData)
+    }
   }
 
-  const category = (number) => {
-    setSelectCategory(number)
+  const changeList = (list) => {
+    if (selectedList !== list) {
+      setSelectedList(list)
+      setAddState(false) //他のリストが選択されたとき、Addを閉じる
+    }
+  }
+
+  const changeCategory = (id) => {
+    setSelectedCategory(id)
     if (addState === true) {
       setAddState(false)
     }
@@ -56,19 +74,17 @@ export default function Home() {
   const logOut = async () => {
     try {
       await auth.signOut()
-      router.push("/login")
+      router.push('/login')
     } catch (error) {
       alert(error.message)
     }
   }
 
-  // console.log(Lists.foodlists)
-
   return (
     <div>
       <div className={styles.tools}>
         <div>
-          <input type="text" />
+          <input type='text' />
         </div>
         <div>
           <button onClick={toggleAdd}>add</button>
@@ -76,26 +92,36 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.listsContainer} onClick={select}>
+      <div className={styles.listsContainer}>
         {/* <Listsflame type="Menu" categorys={menuLists} /> */}
+
         <Listsflame
-          type="Food"
-          categorys={foodLists}
-          select={category}
+          type='Food'
           add={addState}
-          selectCategory={selectCategory}
+          userId={userId}
+          listData={foodLists}
+          changeList={changeList}
+          selectedList={selectedList}
+          changeCategory={changeCategory}
+          selectedCategory={selectedCategory}
+          changeListsState={changeListsState}
         />
+
         <Listsflame
-          type="Buy"
-          categorys={buyLists}
-          select={category}
+          type='Buy'
           add={addState}
-          selectCategory={selectCategory}
+          userId={userId}
+          listData={buyLists}
+          changeList={changeList}
+          selectedList={selectedList}
+          changeCategory={changeCategory}
+          selectedCategory={selectedCategory}
+          changeListsState={changeListsState}
         />
       </div>
-      {/* <pre>{currentUser && JSON.stringify(currentUser, null, 4)}</pre> */}
+
       <button onClick={logOut}>Logout</button>
-      <Link href="/test/">
+      <Link href='/test/'>
         <a>そこが訓練場だ</a>
       </Link>
     </div>

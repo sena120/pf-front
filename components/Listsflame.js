@@ -1,45 +1,48 @@
-import React from "react"
-import { useState } from "react"
-import Category from "./Categoty"
-import styles from "./Components.module.css"
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
-import Panels from "./Panels"
-import "react-tabs/style/react-tabs.css"
+import React from 'react'
+import { useState } from 'react'
+import Category from './Categoty'
+import styles from './Components.module.css'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import Panel from './Panel'
+import 'react-tabs/style/react-tabs.css'
 
 const Listsflame = (props) => {
   const [tabIndex, setTabIndex] = useState(0)
 
   return (
-    <div className={styles.listsContainer}>
+    <div className={styles.listsContainer} onClick={() => props.changeList(props.type)}>
       <h3 className={styles.listTitle}>{props.type}</h3>
+
+      {/* 各リストのカテゴリ */}
       <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
         <TabList>
-          {props.categorys.map((category) => {
+          {props.listData.map((category) => {
             return (
-              // eslint-disable-next-line react/jsx-key
-              <Tab onClick={() => props.select(category.id)}>
-                <Category category={category} select={props.select} />
+              <Tab key={category.id} onClick={() => props.changeCategory(category.id)}>
+                <Category category={category} />
               </Tab>
             )
           })}
         </TabList>
 
-        {props.categorys.map((category) => {
+        {/* 各カテゴリに対応したアイテム */}
+        {props.listData.map((category, index) => {
           let items
-          if (props.type === "Food") {
+          if (props.type === 'Food') {
             items = category.fooditems
-          }
-          if (props.type === "Buy") {
+          } else if (props.type === 'Buy') {
             items = category.buyitems
           }
-
           return (
-            // eslint-disable-next-line react/jsx-key
-            <TabPanel>
-              <Panels
+            <TabPanel key={index}>
+              <Panel
                 items={items}
                 add={props.add}
-                selectCategory={props.selectCategory}
+                type={props.type}
+                userId={props.userId}
+                selectedList={props.selectedList}
+                selectedCategory={props.selectedCategory}
+                changeListsState={props.changeListsState}
               />
             </TabPanel>
           )

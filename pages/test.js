@@ -1,14 +1,13 @@
-import React from "react"
-import { useEffect } from "react"
-import Header from "../components/Header"
-import axios from "axios"
+import React from 'react'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 const Test = () => {
   useEffect(() => {
-    const u = "users"
+    const u = 'users'
     axios
       .get(`http://localhost:3001/${u}`, {
-        params: { email: "test@co.jp" },
+        params: { email: 'test@co.jp' },
       })
       .then((results) => {
         console.log(results)
@@ -18,12 +17,7 @@ const Test = () => {
       })
   }, [])
 
-  return (
-    <div>
-      <Header />
-      ここがリストだ
-    </div>
-  )
+  return <div>ここがリストだ</div>
 }
 
 export default Test
