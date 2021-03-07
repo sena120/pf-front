@@ -1,35 +1,133 @@
 /* Listsflame_styles */
 .listsContainer {
   width: 30%;
-  border: 1px solid;
+  max-width: 400px;
+  height: 100%;
+  cursor: pointer;
+  border: 3px solid #cccccc;
+  border-radius: 30px 30px 15px 15px;
+}
+
+.selectedListsContainer {
+  width: 30%;
+  max-width: 400px;
+  height: 100%;
+  border: 3px solid#66ff33;
+  border-radius: 30px 30px 15px 15px;
+}
+
+.listHeader {
+  display: flex;
+  height: 5%;
+  width: 100%;
 }
 
 .listTitle {
   margin: 0;
+  height: 100%;
+  width: 20%;
+  margin-right: 30%;
+  margin-left: 40%;
   text-align: center;
-  text-decoration: underline;
 }
 
-.categorys {
-  list-style: none;
+.listTools {
+  width: 10%;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.listTools:hover {
+  color: #00cc33;
+}
+
+.tabList {
   display: flex;
   flex-direction: row;
+  height: 5%;
+  margin: 0;
+  border-bottom: 1px solid #c0c0c0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.category {
+  margin-right: 3%;
+  margin-left: 3%;
+  font-weight: bold;
+  cursor: pointer;
+  list-style: none;
+  display: inline-block;
+}
+
+.selectedCategory {
+  margin-right: 3%;
+  margin-left: 3%;
+  font-weight: 20px;
+  font-weight: bold;
+  border-bottom: 2px solid #00cc33;
+  cursor: default;
+  list-style: none;
+  color: #00cc33;
+  display: inline-block;
 }
 
 /* Panels */
-.ul {
-  padding: 0;
+
+.panel {
+  height: 90%;
+  width: 100%;
 }
 
-/* items */
+.ul {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+}
+
+/* item */
 .item {
   list-style: none;
-  border: 1px solid;
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px solid #c0c0c0;
   height: 40px;
+  width: 95%;
   font-size: 120%;
 }
 
-/* Header_styles */
+.item:focus-within {
+  border-bottom: 2px solid #00cc33;
+}
+
+.itemFrom {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.itemInput {
+  height: 100%;
+  width: 90%;
+  margin-left: 10%;
+  font-size: 80%;
+  border: none;
+  outline: none;
+  box-shadow: #00cc33;
+}
+
+.itemDate {
+  width: 30%;
+  border: none;
+}
+
+/* Header */
 .container {
   background-color: rgb(192, 253, 184);
   height: 100px;

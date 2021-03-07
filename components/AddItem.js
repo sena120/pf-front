@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
+import AddMenuItem from './AddMenuItem'
 
 const AddItem = (props) => {
   const [itemName, setItemName] = useState('')
@@ -10,10 +11,10 @@ const AddItem = (props) => {
     setItemName(e.target.value)
   }
 
-  const but = (e) => {
-    e.preventDefault()
-    console.log(itemName)
-  }
+  const date = new Date()
+  const yyyy = date.getFullYear()
+  const mm = ('0' + (date.getMonth() + 1)).slice(-2)
+  const dd = ('0' + date.getDate()).slice(-2)
 
   const submitForm = (e) => {
     e.preventDefault()
@@ -28,16 +29,13 @@ const AddItem = (props) => {
     }
     if (props.type === 'Buy') {
       listType = 'buyitems'
+      params = { item: itemName, buylist_id: categoryId, userId: props.userId }
     }
     axios
       .post('http://localhost:3001/' + listType, params)
       .then((results) => {
-        console.log(results.data.data)
+        console.log(results)
         props.changeListsState(results.data.data)
-        // const newItems = props.items.slice()
-        // newItems.push(results.data)
-        // console.log(newItems)
-        // props.changeItems(newItems, 'post')
       })
       .catch((data) => {
         console.log(data)
@@ -46,21 +44,23 @@ const AddItem = (props) => {
     setItemName('')
   }
 
+  //リストに合わせた追加フォーム
   if (props.add && props.type === props.selectedList) {
-    if (props.type === 'Food') {
+    if (props.type === 'Menu') {
       return (
-        <form onSubmit={submitForm}>
-          <input type='text' placeholder='food' onChange={inputItemName} value={itemName} />
-          <button type='submit'>追加</button>
-        </form>
+        <li>
+          <AddMenuItem submitForm={submitForm} inputItemName={inputItemName} itemName={itemName} />
+        </li>
       )
-    }
-    if (props.type === 'Buy') {
+    } else {
       return (
-        <div>
-          <input type='text' onChange={inputItemName} placeholder='buy' />
-          <button onClick={but}>aa</button>
-        </div>
+        <li>
+          <form onSubmit={submitForm}>
+            <input type='text' onChange={inputItemName} value={itemName} />
+            <input type='date' defaultValue={`${yyyy}-${mm}-${dd}`} />
+            <button type='submit'>追加</button>
+          </form>
+        </li>
       )
     }
   }
