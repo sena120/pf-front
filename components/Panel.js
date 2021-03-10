@@ -25,6 +25,8 @@ const Panel = (props) => {
                 items={props.items}
                 key={item.id}
                 type={props.type}
+                allItems={props.allItems}
+                searchWord={props.searchWord}
                 deleteItems={props.deleteItems}
               />
             )

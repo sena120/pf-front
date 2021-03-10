@@ -1,14 +1,36 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
-import AddMenuItem from './AddMenuItem'
+import styles from './Components.module.css'
 
 const AddItem = (props) => {
   const [itemName, setItemName] = useState('')
+  const [food, setFood] = useState('')
+  const [newFoods, setNewFoods] = useState([])
   const categoryId = props.selectedCategory
 
   const inputItemName = (e) => {
     setItemName(e.target.value)
+  }
+
+  const inputFood = (e) => {
+    setFood(e.target.value)
+  }
+
+  const addFood = (e) => {
+    e.preventDefault()
+    const newArray = newFoods.slice()
+    newArray.push(food)
+    setNewFoods(newArray)
+    setFood('')
+  }
+
+  const removeFood = () => {
+    const findFood = (element) => element === food
+    const idIndex = newFoods.findIndex(findFood)
+    const newArray = newFoods.slice()
+    newArray.splice(idIndex, 1)
+    setNewFoods(newArray)
   }
 
   const date = new Date()
@@ -22,6 +44,7 @@ const AddItem = (props) => {
     let params
     if (props.type === 'Menu') {
       listType = 'menuitems'
+      params = { item: itemName, foods: newFoods, menulist_id: categoryId, userId: props.userId }
     }
     if (props.type === 'Food') {
       listType = 'fooditems'
@@ -42,23 +65,72 @@ const AddItem = (props) => {
       })
 
     setItemName('')
+    setNewFoods([])
   }
 
   //リストに合わせた追加フォーム
   if (props.add && props.type === props.selectedList) {
     if (props.type === 'Menu') {
       return (
-        <li>
-          <AddMenuItem submitForm={submitForm} inputItemName={inputItemName} itemName={itemName} />
+        <li className={styles.addMenu}>
+          <form className={styles.addMenuForm} onSubmit={submitForm}>
+            <input
+              className={styles.addInput}
+              autoFocus
+              required
+              type='text'
+              placeholder='料理名'
+              onChange={inputItemName}
+              value={itemName}
+            />
+            <button className={styles.addButton} type='submit' disabled={newFoods.length === 0}>
+              追加
+            </button>
+          </form>
+          <form className={styles.addMenuForm} onSubmit={addFood}>
+            <input
+              className={styles.addInput}
+              type='text'
+              required
+              placeholder='食材'
+              onChange={inputFood}
+              value={food}
+            />
+            <button className={styles.addButton} type='submit'>
+              追加
+            </button>
+          </form>
+
+          <ul className={styles.Foods}>
+            {newFoods.map((newfood, index) => {
+              return (
+                <li className={styles.addFood} key={index}>
+                  <div>{newfood}</div>
+                  <div className={styles.removeFood} onClick={removeFood}>
+                    ×
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
         </li>
       )
     } else {
       return (
-        <li>
-          <form onSubmit={submitForm}>
-            <input type='text' onChange={inputItemName} value={itemName} />
-            <input type='date' defaultValue={`${yyyy}-${mm}-${dd}`} />
-            <button type='submit'>追加</button>
+        <li className={styles.add}>
+          <form className={styles.addForm} onSubmit={submitForm}>
+            <input
+              className={styles.addInput}
+              type='text'
+              autoFocus
+              required
+              onChange={inputItemName}
+              value={itemName}
+            />
+            {/* <input type='date' defaultValue={`${yyyy}-${mm}-${dd}`} /> */}
+            <button className={styles.addButton} type='submit'>
+              追加
+            </button>
           </form>
         </li>
       )

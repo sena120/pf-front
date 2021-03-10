@@ -1,5 +1,7 @@
 .body {
   height: 100%;
+  min-height: 650px;
+  min-width: 980px;
 }
 
 .title {
@@ -15,6 +17,7 @@
 }
 
 .serch {
+  display: flex;
   height: 5%;
   width: 30%;
   max-width: 400px;
@@ -52,16 +55,17 @@
 .add {
   width: 8%;
   height: 100%;
+  margin-right: 2%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  margin-right: 2%;
   cursor: pointer;
   border: 2px solid #cccccc;
   border-radius: 100px;
-  text-align: center;
   font-size: 30px;
+  color: #666666;
   font-weight: bold;
+  text-align: center;
 }
 
 .add:hover {

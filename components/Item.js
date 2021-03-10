@@ -1,16 +1,20 @@
 import React from 'react'
+import Image from 'next/image'
 import styles from './Components.module.css'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 const Item = (props) => {
   const [itemName, setItemName] = useState(props.item.item) //アイテム編集ホームにい入力された文字
+  const [food, setFood] = useState('')
+  const [foods, setFoods] = useState(props.item.foods)
+  const [accordionState, setAccordionState] = useState(false) //menuアイテムのアコーディオンの状態
 
   //チェック済みのアイテムを削除予定のアイテムに追加
   useEffect(() => {
-    const isExits = props.deleteItems.includes(props.item.id)
+    const isExist = props.deleteItems.includes(props.item.id)
     if (props.item.checked === true) {
-      if (!isExits) {
+      if (!isExist) {
         props.deleteItems.push(props.item.id)
       }
     }
@@ -22,13 +26,52 @@ const Item = (props) => {
     setItemName(e.target.value)
   }
 
+  const inputFood = (e) => {
+    setFood(e.target.value)
+  }
+
+  //Menuアイテムのfoodsを追加
+  const addFood = (e) => {
+    e.preventDefault()
+    const newArray = foods.slice()
+    newArray.push(food)
+    setFoods(newArray)
+    setFood('')
+    upDateMenuItem(newArray)
+  }
+
+  //Menuアイテムのfoodsを削除
+  const removeFood = (food) => {
+    const findFood = (element) => element === food
+    const idIndex = foods.findIndex(findFood)
+    const newArray = foods.slice()
+    newArray.splice(idIndex, 1)
+    setFoods(newArray)
+    upDateMenuItem(newArray)
+  }
+
+  //Menuアイテムのfoodsの変更を処理する
+  const upDateMenuItem = (newArray) => {
+    axios
+      .patch(`http://localhost:3001/menuitems/${props.item.id}`, {
+        item: itemName,
+        foods: newArray,
+        checked: props.item.checked,
+      })
+      .then((results) => {
+        console.log(results)
+      })
+      .catch((data) => {
+        console.log(data)
+      })
+  }
+
   //削除予定のアイテムを更新する
   const setDelete = (id) => {
     if (props.item.checked === false) {
       props.deleteItems.push(id)
     } else {
-      const findId = (element) => element === id
-      const idIndex = props.deleteItems.findIndex(findId)
+      const idIndex = props.deleteItems.findIndex((element) => element === id)
       props.deleteItems.splice(idIndex, 1)
     }
     console.log(props.deleteItems)
@@ -38,7 +81,7 @@ const Item = (props) => {
     let params
     if (props.type === 'Menu') {
       listType = 'menuitems'
-      params = { item: itemName, checked: !props.item.checked }
+      params = { item: itemName, foods: foods, checked: !props.item.checked }
     }
     if (props.type === 'Food') {
       listType = 'fooditems'
@@ -66,7 +109,7 @@ const Item = (props) => {
     let params
     if (props.type === 'Menu') {
       listType = 'menuitems'
-      params = { item: itemName, checked: props.item.checked }
+      params = { item: itemName, foods: foods, checked: props.item.checked }
     }
     if (props.type === 'Food') {
       listType = 'fooditems'
@@ -84,41 +127,122 @@ const Item = (props) => {
           props.items.find((item) => item.id === props.item.id),
           results.data
         )
+        if (props.type !== 'Menu') {
+          Object.assign(
+            props.allItems.find((item) => item.id === props.item.id),
+            results.data
+          )
+          console.log(props.allItems)
+        }
       })
       .catch((data) => {
         console.log(data)
       })
   }
 
-  //各アイテム
+  //Menuアイテムのアコーディオンを開閉
+  const toggleAccordion = () => {
+    setAccordionState(!accordionState)
+  }
+
+  //Menuのアイテム
   if (props.type === 'Menu') {
+    let menuStyles
+    accordionState ? (menuStyles = styles.openMenuItem) : (menuStyles = styles.menuItem)
     return (
-      <li className={styles.item}>
-        <form onSubmit={submitNewItems}>
-          <input type='text' defaultValue={itemName} onChange={inputItemName} />
-          <button>🛍</button>
+      <li className={menuStyles}>
+        <div className={styles.menuName}>
+          <form className={styles.itemForm} onSubmit={submitNewItems}>
+            <input
+              className={styles.itemInput}
+              type='text'
+              defaultValue={itemName}
+              onChange={inputItemName}
+            />
+          </form>
+          <span className={styles.itemButton}>
+            <Image src='/買い物カゴのアイコン18.png' height={25} width={25} />
+          </span>
           <input
+            className={styles.checkBox}
             type='checkbox'
             onClick={() => setDelete(props.item.id)}
             defaultChecked={props.item.checked}
           />
-        </form>
+        </div>
+
+        {accordionState ? ( //アコーディオンが開かれたとき
+          <div className={styles.editFoods}>
+            <div className={styles.editFoodsTop}>
+              <form className={styles.editForm} onSubmit={addFood}>
+                <input type='text' onChange={inputFood} value={food} />
+                <button className={styles.editButton} type='submit'>
+                  追加
+                </button>
+              </form>
+              <span onClick={toggleAccordion} className={styles.sankaku}>
+                ▲
+              </span>
+            </div>
+
+            <ul className={styles.Foods}>
+              {foods.map((food, index) => {
+                return (
+                  <li className={styles.editFood} key={index}>
+                    <div>{food}</div>
+                    <div className={styles.removeFood} onClick={() => removeFood(food)}>
+                      ×
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        ) : (
+          //アコーディオンが閉じられているとき
+          <div className={styles.ofAccordion} onClick={toggleAccordion}>
+            <div className={styles.foodsArea}>
+              {foods.map((food, index) => {
+                return (
+                  <span className={styles.foods} key={index}>
+                    {food}
+                  </span>
+                )
+              })}
+            </div>
+            <div className={styles.sankaku}>▼</div>
+          </div>
+        )}
       </li>
     )
-  } else {
+  } //FoodとBuyのアイテム
+  else {
+    let itemStyle
+    let inputStyle
+    if (props.searchWord === props.item.item) {
+      itemStyle = styles.muchItem
+      inputStyle = styles.muchInput
+    } else {
+      itemStyle = styles.item
+      inputStyle = styles.itemInput
+    }
     return (
-      <li className={styles.item}>
-        <form className={styles.itemFrom} onSubmit={submitNewItems}>
+      <li className={itemStyle}>
+        <form className={styles.itemForm} onSubmit={submitNewItems}>
           <input
-            className={styles.itemInput}
+            className={inputStyle}
             type='text'
+            required
             defaultValue={itemName}
             onChange={inputItemName}
           />
-          <input className={styles.itemDate} type='date' />
+          {/* <input className={styles.itemDate} type='date' /> */}
         </form>
-        <button>🔍</button>
+        <span className={styles.itemButton}>
+          <Image src='/icon_139170_256.png' height={20} width={20} />
+        </span>
         <input
+          className={styles.checkBox}
           type='checkbox'
           onClick={() => setDelete(props.item.id)}
           defaultChecked={props.item.checked}

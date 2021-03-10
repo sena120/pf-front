@@ -13,6 +13,8 @@ export default function Home() {
   const [menuLists, setMenuLists] = useState([]) //各リストのデータ
   const [foodLists, setFoodLists] = useState([]) //
   const [buyLists, setBuyLists] = useState([]) //
+  const [allFoodItems, setAllFoodItems] = useState([]) //すべてのFoodアイテム
+  const [allBuyItems, setAllBuyItems] = useState([]) //すべてのBuyアイテム
   const [selectedMenuCategory, setSelectedMenuCategory] = useState() //各リストの選択されているカテゴリー
   const [selectedFoodCategory, setSelectedFoodCategory] = useState() //
   const [selectedBuyCategory, setSelectedBuyCategory] = useState() //
@@ -51,6 +53,18 @@ export default function Home() {
     })
   }, [])
 
+  //検索されたアイテム名が存在すれば、そのリストに移動する処理
+  useEffect(() => {
+    const mutchFoodItem = allFoodItems.find((item) => item.item === searchWord)
+    if (mutchFoodItem) {
+      setSelectedFoodCategory(mutchFoodItem.foodlist_id)
+    }
+    const mutchBuyItem = allBuyItems.find((item) => item.item === searchWord)
+    if (mutchBuyItem) {
+      setSelectedBuyCategory(mutchBuyItem.buylist_id)
+    }
+  }, [searchWord])
+
   //カテゴリ、アイテムの変更を反映する
   const changeListsState = (newData) => {
     if (selectedList === 'Menu') {
@@ -64,7 +78,6 @@ export default function Home() {
 
   //チェック済みのアイテムを削除する
   const deleteItem = () => {
-    console.log(userId)
     let listType
     let ids
     if (selectedList === 'Menu') {
@@ -128,8 +141,14 @@ export default function Home() {
     }
   }
 
+  //検索欄の文字をセット
   const inputSearchWord = (e) => {
     setSearchWord(e.target.value)
+  }
+
+  //検索欄のEnter無効
+  const stopSubmit = (e) => {
+    e.preventDefault()
   }
 
   //アイテム追加フォームの開閉処理
@@ -157,37 +176,43 @@ export default function Home() {
           `}
         </style>
       </Head>
+      {/* Header的な場所 */}
       <div className={styles.title}>
         <h2 className={styles.titleName}>Foodlist</h2>
         <div>=</div>
         <button onClick={logOut}>Logout</button>
       </div>
 
-      <form className={styles.serch}>
+      {/* 検索欄 */}
+      <form className={styles.serch} onSubmit={stopSubmit}>
         <input
           className={styles.serchInput}
-          type='text'
+          type='search'
           placeholder='食材を検索'
           onChange={inputSearchWord}
         />
       </form>
 
+      {/* アイテム追加ボタン */}
       <div className={styles.buttons}>
         <div className={styles.add} onClick={toggleAdd}>
           <div>+</div>
         </div>
 
+        {/* アイテム削除ボタン */}
         <div className={styles.delete} onClick={deleteItem}>
           <Image src='/icon_119870_128.png' height={30} width={30} quality={100} />
         </div>
       </div>
 
+      {/* 各リスト */}
       <div className={styles.listsContainer}>
         <Listsflame
           type='Menu'
           add={addState}
           userId={userId}
           listData={menuLists}
+          searchWord={searchWord}
           selectedCategory={selectedMenuCategory}
           deleteItems={deleteMenuItems}
           changeList={changeList}
@@ -201,12 +226,15 @@ export default function Home() {
           add={addState}
           userId={userId}
           listData={foodLists}
+          allItems={allFoodItems}
+          searchWord={searchWord}
           selectedCategory={selectedFoodCategory}
           deleteItems={deleteFoodItems}
           changeList={changeList}
           selectedList={selectedList}
           changeCategory={changeCategory}
           changeListsState={changeListsState}
+          setAllFoodItems={setAllFoodItems}
         />
 
         <Listsflame
@@ -214,12 +242,15 @@ export default function Home() {
           add={addState}
           userId={userId}
           listData={buyLists}
+          allItems={allBuyItems}
+          searchWord={searchWord}
           selectedCategory={selectedBuyCategory}
           deleteItems={deleteBuyItems}
           changeList={changeList}
           selectedList={selectedList}
           changeCategory={changeCategory}
           changeListsState={changeListsState}
+          setAllBuyItems={setAllBuyItems}
         />
       </div>
     </div>
