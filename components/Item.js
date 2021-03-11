@@ -59,7 +59,10 @@ const Item = (props) => {
         checked: props.item.checked,
       })
       .then((results) => {
-        console.log(results)
+        Object.assign(
+          props.items.find((item) => item.id === props.item.id),
+          results.data
+        )
       })
       .catch((data) => {
         console.log(data)
@@ -74,7 +77,6 @@ const Item = (props) => {
       const idIndex = props.deleteItems.findIndex((element) => element === id)
       props.deleteItems.splice(idIndex, 1)
     }
-    console.log(props.deleteItems)
 
     //API側でもcheckboxを更新する
     let listType
@@ -94,7 +96,6 @@ const Item = (props) => {
     axios
       .patch(`http://localhost:3001/${listType}/${props.item.id}`, params)
       .then((results) => {
-        console.log(results)
         props.item.checked = !props.item.checked
       })
       .catch((data) => {
@@ -122,7 +123,6 @@ const Item = (props) => {
     axios
       .patch(`http://localhost:3001/${listType}/${props.item.id}`, params)
       .then((results) => {
-        console.log(results)
         Object.assign(
           props.items.find((item) => item.id === props.item.id),
           results.data
@@ -132,7 +132,6 @@ const Item = (props) => {
             props.allItems.find((item) => item.id === props.item.id),
             results.data
           )
-          console.log(props.allItems)
         }
       })
       .catch((data) => {
@@ -149,12 +148,26 @@ const Item = (props) => {
   if (props.type === 'Menu') {
     let menuStyles
     accordionState ? (menuStyles = styles.openMenuItem) : (menuStyles = styles.menuItem)
+
+    let menuNameStyles
+    let inputStyles
+    let closedAccordionStyles
+    if (props.item.foods.includes(props.searchWord)) {
+      menuNameStyles = styles.mutchMenuName
+      inputStyles = styles.muchInput
+      closedAccordionStyles = styles.mutchClosedAccordion
+    } else {
+      menuNameStyles = styles.menuName
+      inputStyles = styles.itemInput
+      closedAccordionStyles = styles.closedAccordion
+    }
+
     return (
       <li className={menuStyles}>
-        <div className={styles.menuName}>
+        <div className={menuNameStyles}>
           <form className={styles.itemForm} onSubmit={submitNewItems}>
             <input
-              className={styles.itemInput}
+              className={inputStyles}
               type='text'
               defaultValue={itemName}
               onChange={inputItemName}
@@ -187,9 +200,15 @@ const Item = (props) => {
 
             <ul className={styles.Foods}>
               {foods.map((food, index) => {
+                let foodStyles
+                if (props.allFoodItems.find((item) => item.item === food)) {
+                  foodStyles = styles.mutchOpenFood
+                } else if (props.allBuyItems.find((item) => item.item === food)) {
+                  foodStyles = styles.mutchOpenBuy
+                }
                 return (
                   <li className={styles.editFood} key={index}>
-                    <div>{food}</div>
+                    <div className={foodStyles}>{food}</div>
                     <div className={styles.removeFood} onClick={() => removeFood(food)}>
                       ×
                     </div>
@@ -200,11 +219,19 @@ const Item = (props) => {
           </div>
         ) : (
           //アコーディオンが閉じられているとき
-          <div className={styles.ofAccordion} onClick={toggleAccordion}>
+          <div className={closedAccordionStyles} onClick={toggleAccordion}>
             <div className={styles.foodsArea}>
               {foods.map((food, index) => {
+                let foodStyles
+                if (props.allFoodItems.find((item) => item.item === food)) {
+                  foodStyles = styles.mutchFood
+                } else if (props.allBuyItems.find((item) => item.item === food)) {
+                  foodStyles = styles.mutchBuy
+                } else {
+                  foodStyles = styles.food
+                }
                 return (
-                  <span className={styles.foods} key={index}>
+                  <span className={foodStyles} key={index}>
                     {food}
                   </span>
                 )
@@ -218,19 +245,19 @@ const Item = (props) => {
   } //FoodとBuyのアイテム
   else {
     let itemStyle
-    let inputStyle
+    let inputStyles
     if (props.searchWord === props.item.item) {
       itemStyle = styles.muchItem
-      inputStyle = styles.muchInput
+      inputStyles = styles.muchInput
     } else {
       itemStyle = styles.item
-      inputStyle = styles.itemInput
+      inputStyles = styles.itemInput
     }
     return (
       <li className={itemStyle}>
         <form className={styles.itemForm} onSubmit={submitNewItems}>
           <input
-            className={inputStyle}
+            className={inputStyles}
             type='text'
             required
             defaultValue={itemName}
@@ -238,7 +265,7 @@ const Item = (props) => {
           />
           {/* <input className={styles.itemDate} type='date' /> */}
         </form>
-        <span className={styles.itemButton}>
+        <span className={styles.itemButton} onClick={() => props.actionButton(props.item.item)}>
           <Image src='/icon_139170_256.png' height={20} width={20} />
         </span>
         <input

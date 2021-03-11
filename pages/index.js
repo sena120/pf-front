@@ -13,6 +13,7 @@ export default function Home() {
   const [menuLists, setMenuLists] = useState([]) //各リストのデータ
   const [foodLists, setFoodLists] = useState([]) //
   const [buyLists, setBuyLists] = useState([]) //
+  const [allMenuItems, setAllMenuItems] = useState([]) //すべてのMenuアイテム
   const [allFoodItems, setAllFoodItems] = useState([]) //すべてのFoodアイテム
   const [allBuyItems, setAllBuyItems] = useState([]) //すべてのBuyアイテム
   const [selectedMenuCategory, setSelectedMenuCategory] = useState() //各リストの選択されているカテゴリー
@@ -55,6 +56,10 @@ export default function Home() {
 
   //検索されたアイテム名が存在すれば、そのリストに移動する処理
   useEffect(() => {
+    const mutchMenuItem = allMenuItems.find((item) => item.foods.includes(searchWord))
+    if (mutchMenuItem) {
+      setSelectedMenuCategory(mutchMenuItem.menulist_id)
+    }
     const mutchFoodItem = allFoodItems.find((item) => item.item === searchWord)
     if (mutchFoodItem) {
       setSelectedFoodCategory(mutchFoodItem.foodlist_id)
@@ -91,18 +96,15 @@ export default function Home() {
       ids = deleteBuyItems
     }
     axios
-      .delete(`http://localhost:3001/${listType}/${ids}`, { params: { ids: ids, userId: userId } })
+      .delete(`http://localhost:3001/${listType}/${ids}`, { params: { ids: ids, user_id: userId } })
       .then((results) => {
         if (selectedList === 'Menu') {
-          console.log(results)
           setDeleteMenuItems([])
           setMenuLists(results.data.data)
         } else if (selectedList === 'Food') {
-          console.log(results)
           setDeleteFoodItems([])
           setFoodLists(results.data.data)
         } else if (selectedList === 'Buy') {
-          console.log(results)
           setDeleteBuyItems([])
           setBuyLists(results.data.data)
         }
@@ -141,9 +143,15 @@ export default function Home() {
     }
   }
 
-  //検索欄の文字をセット
+  //検索欄に入力された文字をセット
   const inputSearchWord = (e) => {
     setSearchWord(e.target.value)
+  }
+
+  //検索ボタンの処理
+  const searchButton = (name) => {
+    setSearchWord('')
+    setSearchWord(name)
   }
 
   //検索欄のEnter無効
@@ -176,7 +184,7 @@ export default function Home() {
           `}
         </style>
       </Head>
-      {/* Header的な場所 */}
+      {/* Header */}
       <div className={styles.title}>
         <h2 className={styles.titleName}>Foodlist</h2>
         <div>=</div>
@@ -188,6 +196,7 @@ export default function Home() {
         <input
           className={styles.serchInput}
           type='search'
+          value={searchWord}
           placeholder='食材を検索'
           onChange={inputSearchWord}
         />
@@ -212,7 +221,11 @@ export default function Home() {
           add={addState}
           userId={userId}
           listData={menuLists}
+          allFoodItems={allFoodItems}
+          allBuyItems={allBuyItems}
+          setAllMenuItems={setAllMenuItems}
           searchWord={searchWord}
+          actionButton={searchButton}
           selectedCategory={selectedMenuCategory}
           deleteItems={deleteMenuItems}
           changeList={changeList}
@@ -227,14 +240,15 @@ export default function Home() {
           userId={userId}
           listData={foodLists}
           allItems={allFoodItems}
+          setAllFoodItems={setAllFoodItems}
           searchWord={searchWord}
+          actionButton={searchButton}
           selectedCategory={selectedFoodCategory}
           deleteItems={deleteFoodItems}
           changeList={changeList}
           selectedList={selectedList}
           changeCategory={changeCategory}
           changeListsState={changeListsState}
-          setAllFoodItems={setAllFoodItems}
         />
 
         <Listsflame
@@ -243,14 +257,15 @@ export default function Home() {
           userId={userId}
           listData={buyLists}
           allItems={allBuyItems}
+          setAllBuyItems={setAllBuyItems}
           searchWord={searchWord}
+          actionButton={searchButton}
           selectedCategory={selectedBuyCategory}
           deleteItems={deleteBuyItems}
           changeList={changeList}
           selectedList={selectedList}
           changeCategory={changeCategory}
           changeListsState={changeListsState}
-          setAllBuyItems={setAllBuyItems}
         />
       </div>
     </div>

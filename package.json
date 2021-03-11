@@ -12,8 +12,7 @@
     "firebase": "^8.2.7",
     "next": "10.0.6",
     "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-tabs": "^3.2.0"
+    "react-dom": "17.0.1"
   },
   "devDependencies": {
     "eslint": "^7.20.0",

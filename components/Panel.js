@@ -26,7 +26,10 @@ const Panel = (props) => {
                 key={item.id}
                 type={props.type}
                 allItems={props.allItems}
+                allFoodItems={props.allFoodItems}
+                allBuyItems={props.allBuyItems}
                 searchWord={props.searchWord}
+                actionButton={props.actionButton}
                 deleteItems={props.deleteItems}
               />
             )

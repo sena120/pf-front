@@ -9,14 +9,15 @@ const AddItem = (props) => {
   const [newFoods, setNewFoods] = useState([])
   const categoryId = props.selectedCategory
 
+  //フォームに入力された文字を値をセット
   const inputItemName = (e) => {
     setItemName(e.target.value)
   }
-
   const inputFood = (e) => {
     setFood(e.target.value)
   }
 
+  //新しく作るMneuアイテムのfoodを追加
   const addFood = (e) => {
     e.preventDefault()
     const newArray = newFoods.slice()
@@ -25,6 +26,7 @@ const AddItem = (props) => {
     setFood('')
   }
 
+  //新しく作るMenuアイテムのfoodを削除
   const removeFood = () => {
     const findFood = (element) => element === food
     const idIndex = newFoods.findIndex(findFood)
@@ -38,26 +40,26 @@ const AddItem = (props) => {
   const mm = ('0' + (date.getMonth() + 1)).slice(-2)
   const dd = ('0' + date.getDate()).slice(-2)
 
+  //アイテムを追加する処理
   const submitForm = (e) => {
     e.preventDefault()
     let listType
     let params
     if (props.type === 'Menu') {
       listType = 'menuitems'
-      params = { item: itemName, foods: newFoods, menulist_id: categoryId, userId: props.userId }
+      params = { item: itemName, foods: newFoods, menulist_id: categoryId, user_id: props.userId }
     }
     if (props.type === 'Food') {
       listType = 'fooditems'
-      params = { item: itemName, foodlist_id: categoryId, userId: props.userId }
+      params = { item: itemName, foodlist_id: categoryId, user_id: props.userId }
     }
     if (props.type === 'Buy') {
       listType = 'buyitems'
-      params = { item: itemName, buylist_id: categoryId, userId: props.userId }
+      params = { item: itemName, buylist_id: categoryId, user_id: props.userId }
     }
     axios
       .post('http://localhost:3001/' + listType, params)
       .then((results) => {
-        console.log(results)
         props.changeListsState(results.data.data)
       })
       .catch((data) => {

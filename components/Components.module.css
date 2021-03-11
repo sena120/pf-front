@@ -4,6 +4,7 @@
   min-width: 300px;
   max-width: 400px;
   height: 100%;
+  max-height: 600px;
   cursor: pointer;
   border: 3px solid #cccccc;
   border-radius: 30px 30px 15px 15px;
@@ -14,6 +15,7 @@
   min-width: 300px;
   max-width: 400px;
   height: 100%;
+  max-height: 600px;
   border: 3px solid#66ff33;
   border-radius: 30px 30px 15px 15px;
 }
@@ -39,6 +41,65 @@
   font-weight: bold;
 }
 
+.modal {
+  position: relative;
+  background-color: #dadada;
+  border-radius: 10px;
+  height: 300px;
+  width: 90%;
+  margin-top: -300px;
+  top: 340px;
+  left: 5%;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalForm {
+  height: 10%;
+  width: 90%;
+  margin-top: 1%;
+}
+
+.modalAddInput {
+  height: 100%;
+  width: 83%;
+}
+
+.modalUl {
+  margin: 0;
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+  padding: 0;
+  height: 75%;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #c0c0c0;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.modalItem {
+  height: 30px;
+  width: 95%;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+.modalItemInput {
+  height: 30px;
+  width: 100%;
+  font-size: 100%;
+  font-weight: bold;
+  border: none;
+  border-bottom: 1px solid #c0c0c0;
+  outline: none;
+}
+
 .listTools:hover {
   color: #00cc33;
 }
@@ -47,11 +108,18 @@
   display: flex;
   flex-direction: row;
   height: 5%;
+  width: 100%;
   margin: 0;
+  padding: 0;
   border-bottom: 1px solid #c0c0c0;
   overflow-x: auto;
-  overflow-y: hidden;
   white-space: nowrap;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.tabList::-webkit-scrollbar {
+  display: none;
 }
 
 .category {
@@ -92,6 +160,12 @@
   flex-direction: column;
   align-items: center;
   overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.ul::-webkit-scrollbar {
+  display: none;
 }
 
 /* item */
@@ -115,7 +189,7 @@
   display: flex;
   justify-content: flex-end;
   border-bottom: 1px solid #c0c0c0;
-  background-color: #99ff66;
+  background-color: #ccffcc;
   height: 40px;
   width: 95%;
   font-size: 120%;
@@ -141,7 +215,6 @@
 }
 
 .itemInput:focus {
-  color: #00cc33;
   font-weight: bold;
 }
 
@@ -151,10 +224,10 @@
   padding-left: 10%;
   font-size: 85%;
   font-weight: bold;
-  color: #fff;
+  color: #00cc33;
   border: none;
   outline: none;
-  background-color: #99ff66;
+  background-color: #ccffcc;
 }
 
 .itemDate {
@@ -178,7 +251,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #c0c0c0;
+  border-bottom: 2px solid #c0c0c0;
   width: 95%;
   font-size: 120%;
 }
@@ -191,7 +264,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #c0c0c0;
+  border-bottom: 2px solid #c0c0c0;
   height: fit-content;
   width: 95%;
   font-size: 120%;
@@ -204,7 +277,15 @@
 .menuName {
   display: flex;
   height: 40px;
+  font-weight: bold;
   border-bottom: 1px solid #c0c0c0;
+}
+
+.mutchMenuName {
+  display: flex;
+  height: 40px;
+  border-bottom: 1px solid #c0c0c0;
+  background-color: #ccffcc;
 }
 
 .editFoods {
@@ -244,7 +325,7 @@
   font-size: 80%;
 }
 
-.ofAccordion {
+.closedAccordion {
   height: 25px;
   padding-left: 15%;
   width: 100%;
@@ -253,17 +334,49 @@
   overflow: hidden;
 }
 
-.ofAccordion:hover {
+.closedAccordion:hover {
   background-color: #c0c0c03b;
+}
+
+.mutchClosedAccordion {
+  height: 25px;
+  padding-left: 15%;
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #ccffcc;
 }
 
 .foodsArea {
   width: 100%;
 }
 
-.foods {
+.food {
   margin-right: 2%;
   font-size: 80%;
+}
+
+.mutchFood {
+  margin-right: 2%;
+  font-size: 80%;
+  color: #00cc33;
+}
+
+.mutchBuy {
+  margin-right: 2%;
+  font-size: 80%;
+  color: #ff6600;
+}
+
+.mutchOpenFood {
+  /* font-size: 80%; */
+  color: #00cc33;
+}
+
+.mutchOpenBuy {
+  /* font-size: 80%; */
+  color: #ff6600;
 }
 
 .sankaku {

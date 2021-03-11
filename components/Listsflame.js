@@ -1,27 +1,12 @@
 import React from 'react'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Category from './Category'
 import styles from './Components.module.css'
+import Modal from './Modal'
 import Panel from './Panel'
 
 const Listsflame = (props) => {
-  //すべてのFood,Buyアイテムをセットする
-  useEffect(() => {
-    if (props.type === 'Food') {
-      let allFood = []
-      props.listData.map((category) => {
-        allFood.push.apply(allFood, category.fooditems)
-      })
-      props.setAllFoodItems(allFood)
-    }
-    if (props.type === 'Buy') {
-      let allBuy = []
-      props.listData.map((category) => {
-        allBuy.push.apply(allBuy, category.buyitems)
-      })
-      props.setAllBuyItems(allBuy)
-    }
-  }, [props.listData])
+  const [modalState, setModalState] = useState(false)
 
   //選択されているリストのスタイル
   let style
@@ -31,13 +16,66 @@ const Listsflame = (props) => {
     style = styles.listsContainer
   }
 
+  //各リストのすべてのアイテムをセットする
+  useEffect(() => {
+    if (props.type === 'Menu') {
+      let allMenu = []
+      props.listData.map((category) => {
+        allMenu.push.apply(allMenu, category.menuitems)
+      })
+      props.setAllMenuItems(allMenu)
+    } else if (props.type === 'Food') {
+      let allFood = []
+      props.listData.map((category) => {
+        allFood.push.apply(allFood, category.fooditems)
+      })
+      props.setAllFoodItems(allFood)
+    } else if (props.type === 'Buy') {
+      let allBuy = []
+      props.listData.map((category) => {
+        allBuy.push.apply(allBuy, category.buyitems)
+      })
+      props.setAllBuyItems(allBuy)
+    }
+  }, [props.listData])
+
+  //モーダルを開閉
+  const toggleModal = () => {
+    setModalState(!modalState)
+  }
+
+  const ModalState = () => {
+    if (modalState && props.type === props.selectedList) {
+      return (
+        <Modal
+          type={props.type}
+          userId={props.userId}
+          listData={props.listData}
+          toggleModal={toggleModal}
+          changeListsState={props.changeListsState}
+        />
+      )
+    } else {
+      useEffect(() => {
+        if (props.type !== props.selectedList) {
+          setModalState(false)
+        }
+      }, [props.selectedList])
+      return null
+    }
+  }
+
   return (
     <div className={style} onClick={() => props.changeList(props.type)}>
-      {/* リストのheader的な場所 */}
+      {/* リストのタイトル */}
       <div className={styles.listHeader}>
         <h3 className={styles.listTitle}>{props.type}</h3>
-        <div className={styles.listTools}>...</div>
+        <div className={styles.listTools} onClick={toggleModal}>
+          ...
+        </div>
       </div>
+
+      <ModalState />
 
       {/* 各リストのカテゴリ */}
       <ul className={styles.tabList}>
@@ -72,8 +110,11 @@ const Listsflame = (props) => {
             type={props.type}
             userId={props.userId}
             allItems={props.allItems}
+            allFoodItems={props.allFoodItems}
+            allBuyItems={props.allBuyItems}
             categoryId={category.id}
             searchWord={props.searchWord}
+            actionButton={props.actionButton}
             deleteItems={props.deleteItems}
             selectedList={props.selectedList}
             selectedCategory={props.selectedCategory}
