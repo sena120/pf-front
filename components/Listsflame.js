@@ -114,10 +114,12 @@ const Listsflame = (props) => {
             allBuyItems={props.allBuyItems}
             categoryId={category.id}
             searchWord={props.searchWord}
-            actionButton={props.actionButton}
+            searchButton={props.searchButton}
             deleteItems={props.deleteItems}
             selectedList={props.selectedList}
             selectedCategory={props.selectedCategory}
+            selectedBuyCategory={props.selectedBuyCategory}
+            selectedFoodCategory={props.selectedFoodCategory}
             changeListsState={props.changeListsState}
           />
         )

@@ -1,11 +1,16 @@
 import React from 'react'
 import styles from './Components.module.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ModalCategory from './ModalCategory'
 import axios from 'axios'
 
 const Modal = (props) => {
   const [newCategoryName, setNewCategoryName] = useState('')
+
+  let isMount = false
+  useEffect(() => {
+    isMount = true
+  }, [])
 
   //フォームに入力された値をセット
   const inputCategoryName = (e) => {
@@ -13,7 +18,7 @@ const Modal = (props) => {
   }
 
   //カテゴリーを追加する処理
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault()
     let listType
     if (props.type === 'Menu') {
@@ -25,7 +30,7 @@ const Modal = (props) => {
     if (props.type === 'Buy') {
       listType = 'buylists'
     }
-    axios
+    await axios
       .post('http://localhost:3001/' + listType, {
         category: newCategoryName,
         user_id: props.userId,
@@ -37,11 +42,11 @@ const Modal = (props) => {
         console.log(data)
       })
 
-    setNewCategoryName('')
+    isMount ? setNewCategoryName('') : null
   }
 
   //カテゴリーを削除する処理
-  const destroyCategory = (id) => {
+  const destroyCategory = async (id) => {
     let listType
     if (props.type === 'Menu') {
       listType = 'menulists'
@@ -52,7 +57,7 @@ const Modal = (props) => {
     if (props.type === 'Buy') {
       listType = 'buylists'
     }
-    axios
+    await axios
       .delete(`http://localhost:3001/${listType}/${id}`, { params: { user_id: props.userId } })
       .then((results) => {
         props.changeListsState(results.data.data)

@@ -34,20 +34,23 @@ export default function Home() {
       if (user) {
         // setCurrentUser(user)
         // const userMail = user.email
-        axios
-          .get('http://localhost:3001/users', {
-            params: { email: 'test@co.jp' },
-          })
-          .then((results) => {
-            console.log(results.data.data)
-            setUserId(results.data.data.id)
-            setMenuLists(results.data.data.menulists)
-            setFoodLists(results.data.data.foodlists)
-            setBuyLists(results.data.data.buylists)
-            setSelectedMenuCategory(results.data.data.menulists[0].id)
-            setSelectedFoodCategory(results.data.data.foodlists[0].id)
-            setSelectedBuyCategory(results.data.data.buylists[0].id)
-          })
+        const getData = async () => {
+          await axios
+            .get('http://localhost:3001/users', {
+              params: { email: 'test@co.jp' },
+            })
+            .then((results) => {
+              console.log(results.data.data)
+              setUserId(results.data.data.id)
+              setMenuLists(results.data.data.menulists)
+              setFoodLists(results.data.data.foodlists)
+              setBuyLists(results.data.data.buylists)
+              setSelectedMenuCategory(results.data.data.menulists[0].id)
+              setSelectedFoodCategory(results.data.data.foodlists[0].id)
+              setSelectedBuyCategory(results.data.data.buylists[0].id)
+            })
+        }
+        getData()
       } else {
         router.push('/login')
       }
@@ -71,18 +74,24 @@ export default function Home() {
   }, [searchWord])
 
   //カテゴリ、アイテムの変更を反映する
-  const changeListsState = (newData) => {
-    if (selectedList === 'Menu') {
-      return setMenuLists(newData)
-    } else if (selectedList === 'Food') {
-      return setFoodLists(newData)
-    } else if (selectedList === 'Buy') {
+  const changeListsState = (newData, action) => {
+    if (action === 'changeBuy') {
       return setBuyLists(newData)
+    } else if (action === 'createFood') {
+      return setFoodLists(newData)
+    } else {
+      if (selectedList === 'Menu') {
+        return setMenuLists(newData)
+      } else if (selectedList === 'Food') {
+        return setFoodLists(newData)
+      } else if (selectedList === 'Buy') {
+        return setBuyLists(newData)
+      }
     }
   }
 
   //チェック済みのアイテムを削除する
-  const deleteItem = () => {
+  const deleteItem = async () => {
     let listType
     let ids
     if (selectedList === 'Menu') {
@@ -95,7 +104,7 @@ export default function Home() {
       listType = 'buyitems'
       ids = deleteBuyItems
     }
-    axios
+    await axios
       .delete(`http://localhost:3001/${listType}/${ids}`, { params: { ids: ids, user_id: userId } })
       .then((results) => {
         if (selectedList === 'Menu') {
@@ -225,8 +234,8 @@ export default function Home() {
           allBuyItems={allBuyItems}
           setAllMenuItems={setAllMenuItems}
           searchWord={searchWord}
-          actionButton={searchButton}
           selectedCategory={selectedMenuCategory}
+          selectedBuyCategory={selectedBuyCategory}
           deleteItems={deleteMenuItems}
           changeList={changeList}
           selectedList={selectedList}
@@ -235,6 +244,7 @@ export default function Home() {
         />
 
         <Listsflame
+          scroll={true}
           type='Food'
           add={addState}
           userId={userId}
@@ -242,7 +252,7 @@ export default function Home() {
           allItems={allFoodItems}
           setAllFoodItems={setAllFoodItems}
           searchWord={searchWord}
-          actionButton={searchButton}
+          searchButton={searchButton}
           selectedCategory={selectedFoodCategory}
           deleteItems={deleteFoodItems}
           changeList={changeList}
@@ -259,8 +269,8 @@ export default function Home() {
           allItems={allBuyItems}
           setAllBuyItems={setAllBuyItems}
           searchWord={searchWord}
-          actionButton={searchButton}
           selectedCategory={selectedBuyCategory}
+          selectedFoodCategory={selectedFoodCategory}
           deleteItems={deleteBuyItems}
           changeList={changeList}
           selectedList={selectedList}

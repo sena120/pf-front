@@ -41,7 +41,7 @@ const AddItem = (props) => {
   const dd = ('0' + date.getDate()).slice(-2)
 
   //アイテムを追加する処理
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault()
     let listType
     let params
@@ -57,7 +57,7 @@ const AddItem = (props) => {
       listType = 'buyitems'
       params = { item: itemName, buylist_id: categoryId, user_id: props.userId }
     }
-    axios
+    await axios
       .post('http://localhost:3001/' + listType, params)
       .then((results) => {
         props.changeListsState(results.data.data)

@@ -8,6 +8,7 @@ const Item = (props) => {
   const [itemName, setItemName] = useState(props.item.item) //アイテム編集ホームにい入力された文字
   const [food, setFood] = useState('')
   const [foods, setFoods] = useState(props.item.foods)
+  const [toBuy, setToBuy] = useState([])
   const [accordionState, setAccordionState] = useState(false) //menuアイテムのアコーディオンの状態
 
   //チェック済みのアイテムを削除予定のアイテムに追加
@@ -28,6 +29,50 @@ const Item = (props) => {
 
   const inputFood = (e) => {
     setFood(e.target.value)
+  }
+
+  //Menuアイテムから作る新しいBuyアイテムを更新
+  if (props.type === 'Menu') {
+    useEffect(() => {
+      props.item.foods.map((fod) => {
+        if (
+          !props.allFoodItems.some((item) => item.item === fod) &&
+          !props.allBuyItems.some((item) => item.item === fod)
+        ) {
+          if (toBuy.some((item) => item.item === fod)) {
+            Object.assign(
+              toBuy.find((item) => item.item === fod),
+              { item: fod, buylist_id: props.selectedBuyCategory }
+            )
+          } else {
+            const toBuyFood = { item: fod, buylist_id: props.selectedBuyCategory }
+            toBuy.push(toBuyFood)
+          }
+        } else {
+          const index = toBuy.findIndex((item) => item.item === fod)
+          toBuy.splice(index, 1)
+        }
+      })
+    }, [props.selectedBuyCategory, props.allFoodItems, props.allBuyItems])
+  }
+
+  //Menuアイテムのリストに存在しないfoodsをBuyリストに追加
+  const createNewBuyItems = () => {
+    toBuy.map((buy) => {
+      axios
+        .post('http://localhost:3001/buyitems/', {
+          item: buy.item,
+          buylist_id: buy.buylist_id,
+          user_id: props.userId,
+        })
+        .then((results) => {
+          console.log(results.data.data)
+          props.changeListsState(results.data.data, 'changeBuy')
+        })
+        .catch((data) => {
+          console.log(data)
+        })
+    })
   }
 
   //Menuアイテムのfoodsを追加
@@ -51,8 +96,8 @@ const Item = (props) => {
   }
 
   //Menuアイテムのfoodsの変更を処理する
-  const upDateMenuItem = (newArray) => {
-    axios
+  const upDateMenuItem = async (newArray) => {
+    await axios
       .patch(`http://localhost:3001/menuitems/${props.item.id}`, {
         item: itemName,
         foods: newArray,
@@ -69,8 +114,35 @@ const Item = (props) => {
       })
   }
 
+  const addToFoodList = () => {
+    axios
+      .post('http://localhost:3001/fooditems', {
+        item: props.item.item,
+        foodlist_id: props.selectedFoodCategory,
+        user_id: props.userId,
+      })
+      .then((results) => {
+        props.changeListsState(results.data.data, 'createFood')
+      })
+      .catch((data) => {
+        console.log(data)
+      })
+
+    axios
+      .delete('http://localhost:3001/buyitems/' + props.item.id, {
+        params: { ids: props.item.id, user_id: props.userId },
+      })
+      .then((results) => {
+        console.log(results)
+        props.changeListsState(results.data.data, 'changeBuy')
+      })
+      .catch((data) => {
+        console.log(data)
+      })
+  }
+
   //削除予定のアイテムを更新する
-  const setDelete = (id) => {
+  const setDelete = async (id) => {
     if (props.item.checked === false) {
       props.deleteItems.push(id)
     } else {
@@ -93,9 +165,9 @@ const Item = (props) => {
       listType = 'buyitems'
       params = { item: itemName, checked: !props.item.checked }
     }
-    axios
+    await axios
       .patch(`http://localhost:3001/${listType}/${props.item.id}`, params)
-      .then((results) => {
+      .then(() => {
         props.item.checked = !props.item.checked
       })
       .catch((data) => {
@@ -104,7 +176,7 @@ const Item = (props) => {
   }
 
   //アイテムの変更を処理する
-  const submitNewItems = (e) => {
+  const submitNewItems = async (e) => {
     e.preventDefault()
     let listType
     let params
@@ -120,7 +192,7 @@ const Item = (props) => {
       listType = 'buyitems'
       params = { item: itemName, checked: props.item.checked }
     }
-    axios
+    await axios
       .patch(`http://localhost:3001/${listType}/${props.item.id}`, params)
       .then((results) => {
         Object.assign(
@@ -173,7 +245,7 @@ const Item = (props) => {
               onChange={inputItemName}
             />
           </form>
-          <span className={styles.itemButton}>
+          <span className={styles.itemButton} onClick={createNewBuyItems}>
             <Image src='/買い物カゴのアイコン18.png' height={25} width={25} />
           </span>
           <input
@@ -223,9 +295,9 @@ const Item = (props) => {
             <div className={styles.foodsArea}>
               {foods.map((food, index) => {
                 let foodStyles
-                if (props.allFoodItems.find((item) => item.item === food)) {
+                if (props.allFoodItems.some((item) => item.item === food)) {
                   foodStyles = styles.mutchFood
-                } else if (props.allBuyItems.find((item) => item.item === food)) {
+                } else if (props.allBuyItems.some((item) => item.item === food)) {
                   foodStyles = styles.mutchBuy
                 } else {
                   foodStyles = styles.food
@@ -242,8 +314,8 @@ const Item = (props) => {
         )}
       </li>
     )
-  } //FoodとBuyのアイテム
-  else {
+  } //Foodのアイテム
+  else if (props.type === 'Food') {
     let itemStyle
     let inputStyles
     if (props.searchWord === props.item.item) {
@@ -265,8 +337,42 @@ const Item = (props) => {
           />
           {/* <input className={styles.itemDate} type='date' /> */}
         </form>
-        <span className={styles.itemButton} onClick={() => props.actionButton(props.item.item)}>
+        <span className={styles.itemButton} onClick={() => props.searchButton(props.item.item)}>
           <Image src='/icon_139170_256.png' height={20} width={20} />
+        </span>
+        <input
+          className={styles.checkBox}
+          type='checkbox'
+          onClick={() => setDelete(props.item.id)}
+          defaultChecked={props.item.checked}
+        />
+      </li>
+    )
+  } //Buyのアイテム
+  else if (props.type === 'Buy') {
+    let itemStyle
+    let inputStyles
+    if (props.searchWord === props.item.item) {
+      itemStyle = styles.muchItem
+      inputStyles = styles.muchInput
+    } else {
+      itemStyle = styles.item
+      inputStyles = styles.itemInput
+    }
+    return (
+      <li className={itemStyle}>
+        <form className={styles.itemForm} onSubmit={submitNewItems}>
+          <input
+            className={inputStyles}
+            type='text'
+            required
+            defaultValue={itemName}
+            onChange={inputItemName}
+          />
+          {/* <input className={styles.itemDate} type='date' /> */}
+        </form>
+        <span className={styles.itemButton} onClick={addToFoodList}>
+          <Image src='/返信矢印1.png' height={20} width={20} />
         </span>
         <input
           className={styles.checkBox}

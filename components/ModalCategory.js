@@ -12,7 +12,7 @@ const ModalCategory = (props) => {
   }
 
   //カテゴリー名の変更を処理する
-  const submitNewCategory = (e) => {
+  const submitNewCategory = async (e) => {
     e.preventDefault()
     let listType
     if (props.type === 'Menu') {
@@ -24,7 +24,7 @@ const ModalCategory = (props) => {
     if (props.type === 'Buy') {
       listType = 'buylists'
     }
-    axios
+    await axios
       .patch(`http://localhost:3001/${listType}/${props.category.id}`, {
         category: categoryName,
         user_id: props.userId,
