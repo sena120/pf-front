@@ -1,7 +1,6 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { auth } from '../utils/firebase'
-import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
 import axios from 'axios'
@@ -26,21 +25,19 @@ export default function Home() {
   const [selectedList, setSelectedList] = useState('Food') //現在選択されているリストを判断する
   const [addState, setAddState] = useState(false) //アイテムを追加するformの状態
   const [searchWord, setSearchWord] = useState([])
-  // const [currentUser, setCurrentUser] = useState(null)
 
   //ログインしたユーザーであればAPIからデータを取得
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // setCurrentUser(user)
-        // const userMail = user.email
+        const userMail = user.email
         const getData = async () => {
           await axios
-            .get('http://localhost:3001/users', {
+            .get(`${process.env.RAILS_API}users`, {
               params: { email: 'test@co.jp' },
             })
             .then((results) => {
-              console.log(results.data.data)
+              // console.log(results.data.data)
               setUserId(results.data.data.id)
               setMenuLists(results.data.data.menulists)
               setFoodLists(results.data.data.foodlists)
@@ -105,7 +102,9 @@ export default function Home() {
       ids = deleteBuyItems
     }
     await axios
-      .delete(`http://localhost:3001/${listType}/${ids}`, { params: { ids: ids, user_id: userId } })
+      .delete(`${process.env.RAILS_API}${listType}/${ids}`, {
+        params: { ids: ids, user_id: userId },
+      })
       .then((results) => {
         if (selectedList === 'Menu') {
           setDeleteMenuItems([])

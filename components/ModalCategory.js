@@ -25,7 +25,7 @@ const ModalCategory = (props) => {
       listType = 'buylists'
     }
     await axios
-      .patch(`http://localhost:3001/${listType}/${props.category.id}`, {
+      .patch(`${process.env.RAILS_API}${listType}/${props.category.id}`, {
         category: categoryName,
         user_id: props.userId,
       })

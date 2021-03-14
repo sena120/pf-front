@@ -23,7 +23,7 @@ const SignUp = () => {
     e.preventDefault()
     try {
       await auth.createUserWithEmailAndPassword(email, password)
-      axios.post('http://localhost:3001/users', {name: name, email: email})
+      axios.post(`${process.env.RAILS_API}users`, { name: name, email: email })
       router.push('/login')
     } catch (err) {
       alert(err.message)
@@ -32,40 +32,40 @@ const SignUp = () => {
 
   return (
     <div>
-    <Header/>
-    <div className={styles.userForm}>
-    <h2 className={styles.userformTitle}>アカウントを作成</h2>
-      <form onSubmit={createUser}>
-        <div>
-          <input
-            id="name"
-            name="user[name]"
-            type="text"
-            className={styles.userinput}
-            placeholder="ユーザーネーム"
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            id="email"
-            name="user[email]"
-            type="email"
-            className={styles.userinput}
-            placeholder="メールアドレス"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            id="password"
-            type="password"
-            className={styles.userinput}
-            placeholder="パスワード"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        {/* <div>
+      <Header />
+      <div className={styles.userForm}>
+        <h2 className={styles.userformTitle}>アカウントを作成</h2>
+        <form onSubmit={createUser}>
+          <div>
+            <input
+              id='name'
+              name='user[name]'
+              type='text'
+              className={styles.userinput}
+              placeholder='ユーザーネーム'
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              id='email'
+              name='user[email]'
+              type='email'
+              className={styles.userinput}
+              placeholder='メールアドレス'
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              id='password'
+              type='password'
+              className={styles.userinput}
+              placeholder='パスワード'
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          {/* <div>
           <label htmlFor="password">
             確認用パスワード:{' '}
           </label>
@@ -75,16 +75,17 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div> */}
-        <button 
-          type="submit" 
-          className={styles.userbutton}
-          disabled={!name || !email || !password}>
-          登録
-        </button>
-      </form>
-      <Link href="/login">
-        <a className={styles.userlink}>ログインページへ</a>
-      </Link>
+          <button
+            type='submit'
+            className={styles.userbutton}
+            disabled={!name || !email || !password}
+          >
+            登録
+          </button>
+        </form>
+        <Link href='/login'>
+          <a className={styles.userlink}>ログインページへ</a>
+        </Link>
       </div>
     </div>
   )

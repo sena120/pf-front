@@ -31,7 +31,7 @@ const Modal = (props) => {
       listType = 'buylists'
     }
     await axios
-      .post('http://localhost:3001/' + listType, {
+      .post(`${process.env.RAILS_API}` + listType, {
         category: newCategoryName,
         user_id: props.userId,
       })
@@ -47,24 +47,28 @@ const Modal = (props) => {
 
   //カテゴリーを削除する処理
   const destroyCategory = async (id) => {
-    let listType
-    if (props.type === 'Menu') {
-      listType = 'menulists'
+    if (props.listData.length === 1) {
+      return
+    } else {
+      let listType
+      if (props.type === 'Menu') {
+        listType = 'menulists'
+      }
+      if (props.type === 'Food') {
+        listType = 'foodlists'
+      }
+      if (props.type === 'Buy') {
+        listType = 'buylists'
+      }
+      await axios
+        .delete(`${process.env.RAILS_API}${listType}/${id}`, { params: { user_id: props.userId } })
+        .then((results) => {
+          props.changeListsState(results.data.data)
+        })
+        .catch((data) => {
+          console.log(data)
+        })
     }
-    if (props.type === 'Food') {
-      listType = 'foodlists'
-    }
-    if (props.type === 'Buy') {
-      listType = 'buylists'
-    }
-    await axios
-      .delete(`http://localhost:3001/${listType}/${id}`, { params: { user_id: props.userId } })
-      .then((results) => {
-        props.changeListsState(results.data.data)
-      })
-      .catch((data) => {
-        console.log(data)
-      })
   }
 
   return (

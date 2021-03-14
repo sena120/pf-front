@@ -60,13 +60,12 @@ const Item = (props) => {
   const createNewBuyItems = () => {
     toBuy.map((buy) => {
       axios
-        .post('http://localhost:3001/buyitems/', {
+        .post(`${process.env.RAILS_API}buyitems/`, {
           item: buy.item,
           buylist_id: buy.buylist_id,
           user_id: props.userId,
         })
         .then((results) => {
-          console.log(results.data.data)
           props.changeListsState(results.data.data, 'changeBuy')
         })
         .catch((data) => {
@@ -98,7 +97,7 @@ const Item = (props) => {
   //Menuアイテムのfoodsの変更を処理する
   const upDateMenuItem = async (newArray) => {
     await axios
-      .patch(`http://localhost:3001/menuitems/${props.item.id}`, {
+      .patch(`${process.env.RAILS_API}menuitems/${props.item.id}`, {
         item: itemName,
         foods: newArray,
         checked: props.item.checked,
@@ -114,9 +113,10 @@ const Item = (props) => {
       })
   }
 
-  const addToFoodList = () => {
-    axios
-      .post('http://localhost:3001/fooditems', {
+  //BuyリストからFoodリストに追加し、自身を削除する
+  const addToFoodList = async () => {
+    await axios
+      .post(`${process.env.RAILS_API}fooditems`, {
         item: props.item.item,
         foodlist_id: props.selectedFoodCategory,
         user_id: props.userId,
@@ -128,12 +128,11 @@ const Item = (props) => {
         console.log(data)
       })
 
-    axios
-      .delete('http://localhost:3001/buyitems/' + props.item.id, {
+    await axios
+      .delete(`${process.env.RAILS_API}buyitems/` + props.item.id, {
         params: { ids: props.item.id, user_id: props.userId },
       })
       .then((results) => {
-        console.log(results)
         props.changeListsState(results.data.data, 'changeBuy')
       })
       .catch((data) => {
@@ -166,7 +165,7 @@ const Item = (props) => {
       params = { item: itemName, checked: !props.item.checked }
     }
     await axios
-      .patch(`http://localhost:3001/${listType}/${props.item.id}`, params)
+      .patch(`${process.env.RAILS_API}${listType}/${props.item.id}`, params)
       .then(() => {
         props.item.checked = !props.item.checked
       })
@@ -193,7 +192,7 @@ const Item = (props) => {
       params = { item: itemName, checked: props.item.checked }
     }
     await axios
-      .patch(`http://localhost:3001/${listType}/${props.item.id}`, params)
+      .patch(`${process.env.RAILS_API}${listType}/${props.item.id}`, params)
       .then((results) => {
         Object.assign(
           props.items.find((item) => item.id === props.item.id),

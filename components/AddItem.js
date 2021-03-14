@@ -58,7 +58,7 @@ const AddItem = (props) => {
       params = { item: itemName, buylist_id: categoryId, user_id: props.userId }
     }
     await axios
-      .post('http://localhost:3001/' + listType, params)
+      .post(`${process.env.RAILS_API}` + listType, params)
       .then((results) => {
         props.changeListsState(results.data.data)
       })

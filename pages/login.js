@@ -28,35 +28,33 @@ const Login = () => {
 
   return (
     <div>
-    <Header/>
+      <Header />
       <div className={styles.userForm}>
         <h2 className={styles.userformTitle}>foodlistにログイン</h2>
-          <form onSubmit={logIn}>
-            <div>
-              <input
-                id="email"
-                type="email"
-                className={styles.userinput}
-                placeholder="メールアドレス"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                id="password"
-                type="password"
-                className={styles.userinput}
-                placeholder="パスワード"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <button type="submit" 
-              className={styles.userbutton} 
-              disabled={!email || !password}>
-              ログイン
-            </button>
-          </form>
-        <Link href="/signup">
+        <form onSubmit={logIn}>
+          <div>
+            <input
+              id='email'
+              type='email'
+              className={styles.userinput}
+              placeholder='メールアドレス'
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              id='password'
+              type='password'
+              className={styles.userinput}
+              placeholder='パスワード'
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button type='submit' className={styles.userbutton} disabled={!email || !password}>
+            ログイン
+          </button>
+        </form>
+        <Link href='/signup'>
           <a className={styles.userlink}>アカウント作成</a>
         </Link>
       </div>
