@@ -8,5 +8,6 @@ module.exports = {
     FIREBASE_SENDER_ID: process.env.FIREBASE_SENDER_ID,
     FIREBASE_APPID: process.env.FIREBASE_APPID,
     RAILS_API: process.env.RAILS_API,
+    TEST_STRING: process.env.TEST_STRING,
   },
 }
