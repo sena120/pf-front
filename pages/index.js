@@ -34,7 +34,7 @@ export default function Home() {
         const getData = async () => {
           await axios
             .get(`${process.env.RAILS_API}users`, {
-              params: { email: 'test@co.jp' },
+              params: { email: userMail },
             })
             .then((results) => {
               // console.log(results.data.data)
