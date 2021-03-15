@@ -277,5 +277,6 @@ export default function Home() {
           changeListsState={changeListsState}
         />
       </div>
+    </div>
   )
 }
