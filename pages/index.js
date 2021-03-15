@@ -277,7 +277,5 @@ export default function Home() {
           changeListsState={changeListsState}
         />
       </div>
-      <h3>{process.env.RAILS_API}</h3>
-    </div>
   )
 }
