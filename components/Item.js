@@ -10,6 +10,7 @@ const Item = (props) => {
   const [foods, setFoods] = useState(props.item.foods)
   const [toBuy, setToBuy] = useState([])
   const [accordionState, setAccordionState] = useState(false) //menuアイテムのアコーディオンの状態
+  const [canPushButton, setCanPushButton] = useState(true)
 
   //チェック済みのアイテムを削除予定のアイテムに追加
   useEffect(() => {
@@ -60,20 +61,24 @@ const Item = (props) => {
 
   //Menuアイテムのリストに存在しないfoodsをBuyリストに追加
   const createNewBuyItems = () => {
-    toBuy.map((buy) => {
-      axios
-        .post(`${process.env.RAILS_API}buyitems/`, {
-          item: buy.item,
-          buylist_id: buy.buylist_id,
-          user_id: props.userId,
-        })
-        .then((results) => {
-          props.changeListsState(results.data.data, 'changeBuy')
-        })
-        .catch((data) => {
-          console.log(data)
-        })
-    })
+    if (canPushButton) {
+      setCanPushButton(false)
+      toBuy.map((buy) => {
+        axios
+          .post(`${process.env.RAILS_API}buyitems/`, {
+            item: buy.item,
+            buylist_id: buy.buylist_id,
+            user_id: props.userId,
+          })
+          .then((results) => {
+            props.changeListsState(results.data.data, 'changeBuy')
+          })
+          .catch((data) => {
+            console.log(data)
+          })
+      })
+      setCanPushButton(true)
+    }
   }
 
   //Menuアイテムのfoodsを追加
@@ -117,29 +122,34 @@ const Item = (props) => {
 
   //BuyリストからFoodリストに追加し、自身を削除する
   const addToFoodList = async () => {
-    await axios
-      .post(`${process.env.RAILS_API}fooditems`, {
-        item: props.item.item,
-        foodlist_id: props.selectedFoodCategory,
-        user_id: props.userId,
-      })
-      .then((results) => {
-        props.changeListsState(results.data.data, 'createFood')
-      })
-      .catch((data) => {
-        console.log(data)
-      })
+    if (canPushButton) {
+      setCanPushButton(false)
+      await axios
+        .post(`${process.env.RAILS_API}fooditems`, {
+          item: props.item.item,
+          foodlist_id: props.selectedFoodCategory,
+          user_id: props.userId,
+        })
+        .then((results) => {
+          props.changeListsState(results.data.data, 'createFood')
+        })
+        .catch((data) => {
+          console.log(data)
+        })
 
-    await axios
-      .delete(`${process.env.RAILS_API}buyitems/` + props.item.id, {
-        params: { ids: props.item.id, user_id: props.userId },
-      })
-      .then((results) => {
-        props.changeListsState(results.data.data, 'changeBuy')
-      })
-      .catch((data) => {
-        console.log(data)
-      })
+      await axios
+        .delete(`${process.env.RAILS_API}buyitems/` + props.item.id, {
+          params: { ids: props.item.id, user_id: props.userId },
+        })
+        .then((results) => {
+          props.changeListsState(results.data.data, 'changeBuy')
+        })
+        .catch((data) => {
+          console.log(data)
+        })
+
+      setCanPushButton(true)
+    }
   }
 
   //削除予定のアイテムを更新する
