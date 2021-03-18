@@ -7,7 +7,7 @@ const AddItem = (props) => {
   const [itemName, setItemName] = useState('')
   const [food, setFood] = useState('')
   const [newFoods, setNewFoods] = useState([])
-  const [canSubmit, setCanSubmit] = useState(true)
+  const [canSubmit, setCanSubmit] = useState(true) //連打したとしても、リクエストを1回だけにする
   const categoryId = props.selectedCategory
 
   //フォームに入力された文字を値をセット

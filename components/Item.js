@@ -259,7 +259,7 @@ const Item = (props) => {
           <div className={styles.editFoods}>
             <div className={styles.editFoodsTop}>
               <form className={styles.editForm} onSubmit={addFood}>
-                <input type='text' onChange={inputFood} value={food} />
+                <input type='text' required onChange={inputFood} value={food} />
                 <button className={styles.editButton} type='submit'>
                   追加
                 </button>
