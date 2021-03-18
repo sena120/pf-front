@@ -73,6 +73,7 @@ const Item = (props) => {
             console.log(data)
           })
       })
+      setToBuy([])
       setCanPushButton(true)
     }
   }
