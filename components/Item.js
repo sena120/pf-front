@@ -58,6 +58,7 @@ const Item = (props) => {
   const createNewBuyItems = () => {
     if (canPushButton) {
       setCanPushButton(false)
+      console.log(canPushButton)
       toBuy.map((buy) => {
         axios
           .post(`${process.env.RAILS_API}buyitems/`, {
