@@ -7,6 +7,7 @@ const AddItem = (props) => {
   const [itemName, setItemName] = useState('')
   const [food, setFood] = useState('')
   const [newFoods, setNewFoods] = useState([])
+  const [canSubmit, setCanSubmit] = useState(true)
   const categoryId = props.selectedCategory
 
   //フォームに入力された文字を値をセット
@@ -43,31 +44,36 @@ const AddItem = (props) => {
   //アイテムを追加する処理
   const submitForm = async (e) => {
     e.preventDefault()
-    let listType
-    let params
-    if (props.type === 'Menu') {
-      listType = 'menuitems'
-      params = { item: itemName, foods: newFoods, menulist_id: categoryId, user_id: props.userId }
-    }
-    if (props.type === 'Food') {
-      listType = 'fooditems'
-      params = { item: itemName, foodlist_id: categoryId, user_id: props.userId }
-    }
-    if (props.type === 'Buy') {
-      listType = 'buyitems'
-      params = { item: itemName, buylist_id: categoryId, user_id: props.userId }
-    }
-    await axios
-      .post(`${process.env.RAILS_API}` + listType, params)
-      .then((results) => {
-        props.changeListsState(results.data.data)
-      })
-      .catch((data) => {
-        console.log(data)
-      })
+    if (canSubmit) {
+      setCanSubmit(false)
+      let listType
+      let params
+      if (props.type === 'Menu') {
+        listType = 'menuitems'
+        params = { item: itemName, foods: newFoods, menulist_id: categoryId, user_id: props.userId }
+      }
+      if (props.type === 'Food') {
+        listType = 'fooditems'
+        params = { item: itemName, foodlist_id: categoryId, user_id: props.userId }
+      }
+      if (props.type === 'Buy') {
+        listType = 'buyitems'
+        params = { item: itemName, buylist_id: categoryId, user_id: props.userId }
+      }
+      await axios
+        .post(`${process.env.RAILS_API}` + listType, params)
+        .then((results) => {
+          props.changeListsState(results.data.data)
+        })
+        .catch((data) => {
+          console.log(data)
+        })
 
-    setItemName('')
-    setNewFoods([])
+      setItemName('')
+      setNewFoods([])
+      setCanSubmit(true)
+    }
+    return
   }
 
   //リストに合わせた追加フォーム
