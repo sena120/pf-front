@@ -35,24 +35,19 @@ const Item = (props) => {
   //Menuアイテムから作る新しいBuyアイテムを更新
   if (props.type === 'Menu') {
     useEffect(() => {
-      console.log(props.item.foods)
       props.item.foods.map((fod) => {
         if (
           !props.allFoodItems.some((item) => item.item === fod) &&
           !props.allBuyItems.some((item) => item.item === fod)
         ) {
           if (toBuy.some((item) => item.item === fod)) {
-            console.log(fod)
             Object.assign(
               toBuy.find((item) => item.item === fod),
               { item: fod, buylist_id: props.selectedBuyCategory }
             )
-            console.log(toBuy)
           } else {
-            console.log(fod)
             const toBuyFood = { item: fod, buylist_id: props.selectedBuyCategory }
             toBuy.push(toBuyFood)
-            console.log(toBuy)
           }
         }
       })
