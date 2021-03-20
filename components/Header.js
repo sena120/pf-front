@@ -1,6 +1,6 @@
-import Link from "next/link"
-import React from "react"
-import styles from "./Components.module.css"
+import Link from 'next/link'
+import React from 'react'
+import styles from './Components.module.css'
 
 function Header() {
   return (
@@ -8,11 +8,11 @@ function Header() {
       <h1 className={styles.title}>foodlist</h1>
 
       <div className={styles.routes}>
-        <Link href="/header/about">
+        <Link href='/header/about'>
           <a className={styles.rout}>About</a>
         </Link>
 
-        <Link href="/header/help">
+        <Link href='/header/help'>
           <a className={styles.rout}>Help</a>
         </Link>
       </div>

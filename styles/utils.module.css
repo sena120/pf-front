@@ -166,3 +166,16 @@
 .userlink:hover {
   text-decoration: underline;
 }
+
+/* アバウト、about */
+.about {
+  display: flex;
+  justify-content: center;
+}
+
+.toLoginOrSignup {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: auto;
+}
