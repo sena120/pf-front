@@ -12,6 +12,11 @@ const Item = (props) => {
   const [accordionState, setAccordionState] = useState(false) //menuアイテムのアコーディオンの状態
   const [canPushButton, setCanPushButton] = useState(true)
 
+  let isMount = false
+  useEffect(() => {
+    isMount = true
+  }, [])
+
   //チェック済みのアイテムを削除予定のアイテムに追加
   useEffect(() => {
     const isExist = props.deleteItems.includes(props.item.id)
@@ -58,7 +63,6 @@ const Item = (props) => {
   const createNewBuyItems = () => {
     if (canPushButton) {
       setCanPushButton(false)
-      console.log(canPushButton)
       toBuy.map((buy) => {
         axios
           .post(`${process.env.RAILS_API}buyitems/`, {
@@ -122,30 +126,27 @@ const Item = (props) => {
     if (canPushButton) {
       setCanPushButton(false)
       await axios
-        .post(`${process.env.RAILS_API}fooditems`, {
-          item: props.item.item,
-          foodlist_id: props.selectedFoodCategory,
-          user_id: props.userId,
-        })
-        .then((results) => {
-          props.changeListsState(results.data.data, 'createFood')
-        })
+        .all([
+          axios.post(`${process.env.RAILS_API}fooditems`, {
+            item: props.item.item,
+            foodlist_id: props.selectedFoodCategory,
+            user_id: props.userId,
+          }),
+          axios.delete(`${process.env.RAILS_API}buyitems/` + props.item.id, {
+            params: { ids: props.item.id, user_id: props.userId },
+          }),
+        ])
+        .then(
+          axios.spread((postData, deleteData) => {
+            props.changeListsState(postData.data.data, 'createFood')
+            props.changeListsState(deleteData.data.data, 'changeBuy')
+          })
+        )
         .catch((data) => {
           console.log(data)
         })
 
-      await axios
-        .delete(`${process.env.RAILS_API}buyitems/` + props.item.id, {
-          params: { ids: props.item.id, user_id: props.userId },
-        })
-        .then((results) => {
-          props.changeListsState(results.data.data, 'changeBuy')
-        })
-        .catch((data) => {
-          console.log(data)
-        })
-
-      setCanPushButton(true)
+      isMount ? setCanPushButton(true) : null
     }
   }
 
