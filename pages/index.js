@@ -195,8 +195,7 @@ export default function Home() {
       {/* Header */}
       <div className={styles.title}>
         <h2 className={styles.titleName}>Foodlist</h2>
-        <div>=</div>
-        <button onClick={logOut}>Logout</button>
+        <button onClick={logOut}>ログアウト</button>
       </div>
 
       {/* 検索欄 */}

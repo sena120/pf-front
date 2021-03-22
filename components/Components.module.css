@@ -9,6 +9,7 @@
   border: 3px solid #cccccc;
   border-radius: 30px 30px 15px 15px;
   scroll-snap-align: center;
+  background-color: #fff;
 }
 
 .selectedListsContainer {
@@ -20,6 +21,7 @@
   border: 3px solid#66ff33;
   border-radius: 30px 30px 15px 15px;
   scroll-snap-align: center;
+  background-color: #fff;
 }
 
 .listHeader {
