@@ -63,7 +63,12 @@ const AddItem = (props) => {
       await axios
         .post(`${process.env.RAILS_API}` + listType, params)
         .then((results) => {
-          props.changeListsState(results.data.data)
+          const listData = props.listData.slice()
+          const categoryIndex = props.listData.findIndex(
+            (category) => category.id === props.selectedCategory
+          )
+          listData[categoryIndex][`${listType}`].push(results.data.data)
+          props.changeListsState(listData)
         })
         .catch((data) => {
           console.log(data)

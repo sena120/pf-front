@@ -184,7 +184,7 @@ const Item = (props) => {
       })
   }
 
-  //アイテムの変更を処理する
+  //アイテム名の変更を処理する
   const submitNewItems = async (e) => {
     e.preventDefault()
     let listType

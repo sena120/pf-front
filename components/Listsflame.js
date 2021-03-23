@@ -109,6 +109,7 @@ const Listsflame = (props) => {
             add={props.add}
             type={props.type}
             userId={props.userId}
+            listData={props.listData}
             allItems={props.allItems}
             allFoodItems={props.allFoodItems}
             allBuyItems={props.allBuyItems}

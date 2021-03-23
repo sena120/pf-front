@@ -11,6 +11,7 @@ const Panel = (props) => {
         <ul className={styles.ul}>
           <AddItem
             items={props.items}
+            listData={props.listData}
             add={props.add}
             type={props.type}
             userId={props.userId}
