@@ -17,7 +17,7 @@
   max-width: 400px;
   height: 100%;
   max-height: 600px;
-  border: 3px solid#66ff33;
+  border: 3px solid#00cc00;
   border-radius: 30px 30px 15px 15px;
   scroll-snap-align: center;
 }
@@ -113,7 +113,7 @@
   width: 100%;
   margin: 0;
   padding: 0;
-  border-bottom: 1px solid #c0c0c0;
+  border-bottom: 1.8px solid #c0c0c0;
   overflow-x: auto;
   white-space: nowrap;
   -ms-overflow-style: none;
@@ -139,10 +139,10 @@
   margin-left: 3%;
   font-weight: 20px;
   font-weight: bold;
-  border-bottom: 2px solid #00cc33;
+  border-bottom: 2px solid #00cc00;
   cursor: default;
   list-style: none;
-  color: #00cc33;
+  color: #00cc00;
   display: inline-block;
 }
 
@@ -226,7 +226,7 @@
   padding-left: 10%;
   font-size: 85%;
   font-weight: bold;
-  color: #00cc33;
+  color: #00cc00;
   border: none;
   outline: none;
   background-color: #ccffcc;
@@ -293,6 +293,12 @@
 .editFoods {
   display: flex;
   flex-direction: column;
+}
+
+.mutchEditFoods {
+  display: flex;
+  flex-direction: column;
+  background-color: #ccffcc;
 }
 
 .editFoodsTop {
@@ -463,12 +469,12 @@
 
 /* Header */
 .container {
-  background-color: #ccffcc;
+  background-color: #33cc33;
   height: 100px;
 }
 
 .title {
-  color: #00cc33;
+  color: #fff;
   font-size: 50px;
   margin: 0;
   text-align: center;

@@ -233,14 +233,17 @@ const Item = (props) => {
     let menuNameStyles
     let inputStyles
     let closedAccordionStyles
+    let editFoodsStyles
     if (props.item.foods.includes(props.searchWord)) {
       menuNameStyles = styles.mutchMenuName
       inputStyles = styles.muchInput
       closedAccordionStyles = styles.mutchClosedAccordion
+      editFoodsStyles = styles.mutchEditFoods
     } else {
       menuNameStyles = styles.menuName
       inputStyles = styles.itemInput
       closedAccordionStyles = styles.closedAccordion
+      editFoodsStyles = styles.editFoods
     }
 
     return (
@@ -266,7 +269,7 @@ const Item = (props) => {
         </div>
 
         {accordionState ? ( //アコーディオンが開かれたとき
-          <div className={styles.editFoods}>
+          <div className={editFoodsStyles}>
             <div className={styles.editFoodsTop}>
               <form className={styles.editForm} onSubmit={addFood}>
                 <input type='text' required onChange={inputFood} value={food} />

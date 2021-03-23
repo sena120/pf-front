@@ -6,6 +6,7 @@ import Image from 'next/image'
 import axios from 'axios'
 import Listsflame from '../components/Listsflame'
 import styles from '../styles/utils.module.css'
+import Link from 'next/link'
 
 export default function Home() {
   const router = useRouter()
@@ -37,7 +38,7 @@ export default function Home() {
               params: { email: userMail },
             })
             .then((results) => {
-              console.log(results.data.data.foodlists)
+              // console.log(results.data.data)
               setUserId(results.data.data.id)
               setMenuLists(results.data.data.menulists)
               setFoodLists(results.data.data.foodlists)
@@ -195,7 +196,17 @@ export default function Home() {
       {/* Header */}
       <div className={styles.title}>
         <h2 className={styles.titleName}>Foodlist</h2>
-        <button onClick={logOut}>ログアウト</button>
+        <div className={styles.headerNavi}>
+          <Link href='/header/about'>
+            <a className={styles.naviRoute}>About</a>
+          </Link>
+          <Link href='/header/help'>
+            <a className={styles.naviRoute}>Help</a>
+          </Link>
+          <span className={styles.naviRoute} onClick={logOut}>
+            ログアウト
+          </span>
+        </div>
       </div>
 
       {/* 検索欄 */}
