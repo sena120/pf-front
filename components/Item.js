@@ -289,6 +289,8 @@ const Item = (props) => {
                   foodStyles = styles.mutchOpenFood
                 } else if (props.allBuyItems.find((item) => item.item === food)) {
                   foodStyles = styles.mutchOpenBuy
+                } else {
+                  foodStyles = styles.openFood
                 }
                 return (
                   <li className={styles.editFood} key={index}>

@@ -238,13 +238,18 @@
 }
 
 .itemButton {
+  height: fit-content;
+  width: 10%;
   cursor: pointer;
   margin: auto;
+  margin-left: 2%;
 }
 
 .checkBox {
   margin: auto;
-  margin-left: 2%;
+  width: 10%;
+  height: 40%;
+  margin-left: 1%;
 }
 
 /* menuitem */
@@ -378,14 +383,20 @@
   color: #ff6600;
 }
 
+.openFood {
+  cursor: pointer;
+}
+
 .mutchOpenFood {
   /* font-size: 80%; */
   color: #00cc33;
+  cursor: pointer;
 }
 
 .mutchOpenBuy {
   /* font-size: 80%; */
   color: #ff6600;
+  cursor: pointer;
 }
 
 .sankaku {
@@ -489,6 +500,8 @@
 .rout {
   font-size: 20px;
   margin-right: 20px;
+  font-weight: bold;
+  color: #fff;
 }
 
 .rout:hover {

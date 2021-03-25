@@ -194,9 +194,9 @@ export default function Home() {
         </style>
       </Head>
       {/* Header */}
-      <div className={styles.title}>
+      <header className={styles.title}>
         <h2 className={styles.titleName}>Foodlist</h2>
-        <div className={styles.headerNavi}>
+        <nav className={styles.headerNavi}>
           <Link href='/header/about'>
             <a className={styles.naviRoute}>About</a>
           </Link>
@@ -206,8 +206,42 @@ export default function Home() {
           <span className={styles.naviRoute} onClick={logOut}>
             ログアウト
           </span>
+        </nav>
+
+        <div className={styles.humberger}>
+          <input id='menu' type='checkbox' className={styles.humbergerCheckBox} />
+          <label htmlFor='menu' className={styles.openHumberger}>
+            <span className={styles.line}></span>
+            <span className={styles.line}></span>
+            <span className={styles.line}></span>
+          </label>
+          <label htmlFor='menu' className={styles.back}></label>
+
+          <aside className={styles.asideMenu}>
+            <label htmlFor='menu' className={styles.closeHumberger}>
+              ×
+            </label>
+
+            <nav>
+              <ul className={styles.humUl}>
+                <li className={styles.humLi}>
+                  <Link href='/header/about'>
+                    <a>About</a>
+                  </Link>
+                </li>
+                <li className={styles.humLi}>
+                  <Link href='/header/help'>
+                    <a>Help</a>
+                  </Link>
+                </li>
+                <li className={styles.humLi}>
+                  <span onClick={logOut}>ログアウト</span>
+                </li>
+              </ul>
+            </nav>
+          </aside>
         </div>
-      </div>
+      </header>
 
       {/* 検索欄 */}
       <form className={styles.serch} onSubmit={stopSubmit}>
@@ -233,7 +267,7 @@ export default function Home() {
       </div>
 
       {/* 各リスト */}
-      <div className={styles.listsContainer}>
+      <main className={styles.listsContainer}>
         <Listsflame
           type='Menu'
           add={addState}
@@ -286,7 +320,7 @@ export default function Home() {
           changeCategory={changeCategory}
           changeListsState={changeListsState}
         />
-      </div>
+      </main>
     </div>
   )
 }
