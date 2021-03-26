@@ -25,6 +25,7 @@ export default function Home() {
   const [userId, setUserId] = useState() //rails側のユーザーid
   const [selectedList, setSelectedList] = useState('Food') //現在選択されているリストを判断する
   const [addState, setAddState] = useState(false) //アイテムを追加するformの状態
+  const [openHumberger, setOpenHumberger] = useState(false)
   const [searchWord, setSearchWord] = useState([])
 
   //ログインしたユーザーであればAPIからデータを取得
@@ -173,6 +174,11 @@ export default function Home() {
     setAddState(!addState)
   }
 
+  //ハンバーガーメニューの開閉
+  const toggleHumberger = () => {
+    setOpenHumberger(!openHumberger)
+  }
+
   //ログアウトして、ログインページへ遷移する
   const logOut = async () => {
     try {
@@ -182,6 +188,17 @@ export default function Home() {
       alert(error.message)
     }
   }
+
+  let humbergerStyle
+  let humbergerNavStyle
+  let humBackStyle
+  openHumberger
+    ? ((humbergerStyle = styles.asideMenu),
+      (humbergerNavStyle = styles.openHumberger),
+      (humBackStyle = styles.openHumBack))
+    : ((humbergerStyle = styles.closedAsideMenu),
+      (humbergerNavStyle = styles.closedHumberger),
+      (humBackStyle = styles.closeHumBack))
 
   return (
     <div className={styles.body}>
@@ -196,6 +213,7 @@ export default function Home() {
       {/* Header */}
       <header className={styles.title}>
         <h2 className={styles.titleName}>Foodlist</h2>
+        {/* whithが905px以上 */}
         <nav className={styles.headerNavi}>
           <Link href='/header/about'>
             <a className={styles.naviRoute}>About</a>
@@ -208,39 +226,41 @@ export default function Home() {
           </span>
         </nav>
 
-        <div className={styles.humberger}>
-          <input id='menu' type='checkbox' className={styles.humbergerCheckBox} />
-          <label htmlFor='menu' className={styles.openHumberger}>
-            <span className={styles.line}></span>
-            <span className={styles.line}></span>
-            <span className={styles.line}></span>
-          </label>
-          <label htmlFor='menu' className={styles.back}></label>
-
-          <aside className={styles.asideMenu}>
-            <label htmlFor='menu' className={styles.closeHumberger}>
-              ×
-            </label>
-
-            <nav>
-              <ul className={styles.humUl}>
-                <li className={styles.humLi}>
-                  <Link href='/header/about'>
-                    <a>About</a>
-                  </Link>
-                </li>
-                <li className={styles.humLi}>
-                  <Link href='/header/help'>
-                    <a>Help</a>
-                  </Link>
-                </li>
-                <li className={styles.humLi}>
-                  <span onClick={logOut}>ログアウト</span>
-                </li>
-              </ul>
-            </nav>
-          </aside>
+        {/* ハンバーガーメニュー */}
+        <div className={styles.humberger} onClick={toggleHumberger}>
+          <div className={styles.lines}>
+            <div className={styles.line}></div>
+            <div className={styles.line}></div>
+            <div className={styles.line}></div>
+          </div>
         </div>
+        <div className={humBackStyle} onClick={toggleHumberger}></div>
+        <aside className={humbergerStyle}>
+          {openHumberger ? (
+            <div className={humbergerNavStyle}>
+              <div className={styles.closeHum} onClick={toggleHumberger}>
+                x
+              </div>
+              <nav>
+                <ul className={styles.humUl}>
+                  <li className={styles.humLi}>
+                    <Link href='/header/about'>
+                      <a>About</a>
+                    </Link>
+                  </li>
+                  <li className={styles.humLi}>
+                    <Link href='/header/help'>
+                      <a>Help</a>
+                    </Link>
+                  </li>
+                  <li className={styles.humLi}>
+                    <span onClick={logOut}>ログアウト</span>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          ) : null}
+        </aside>
       </header>
 
       {/* 検索欄 */}

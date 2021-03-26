@@ -77,37 +77,51 @@ const AddItem = (props) => {
   }
 
   //リストに合わせた追加フォーム
-  if (props.add && props.type === props.selectedList) {
+  if (props.type === props.selectedList) {
+    //Menuのフォーム
     if (props.type === 'Menu') {
+      let liState
+      if (props.add) {
+        liState = styles.addMenu
+        if (newFoods.length !== 0) {
+          liState = styles.existFoodAddMenu
+        }
+      } else {
+        liState = styles.closedAddMenu
+      }
       return (
-        <li className={styles.addMenu}>
-          <form className={styles.addMenuForm} onSubmit={submitForm}>
-            <input
-              className={styles.addInput}
-              autoFocus
-              required
-              type='text'
-              placeholder='料理名'
-              onChange={inputItemName}
-              value={itemName}
-            />
-            <button className={styles.addButton} type='submit' disabled={newFoods.length === 0}>
-              追加
-            </button>
-          </form>
-          <form className={styles.addMenuForm} onSubmit={addFood}>
-            <input
-              className={styles.addInput}
-              type='text'
-              required
-              placeholder='食材'
-              onChange={inputFood}
-              value={food}
-            />
-            <button className={styles.addButton} type='submit'>
-              追加
-            </button>
-          </form>
+        <li className={liState}>
+          {props.add ? (
+            <>
+              <form className={styles.addMenuForm} onSubmit={submitForm}>
+                <input
+                  className={styles.addInput}
+                  autoFocus
+                  required
+                  type='text'
+                  placeholder='料理名'
+                  onChange={inputItemName}
+                  value={itemName}
+                />
+                <button className={styles.addButton} type='submit' disabled={newFoods.length === 0}>
+                  追加
+                </button>
+              </form>
+              <form className={styles.addMenuForm} onSubmit={addFood}>
+                <input
+                  className={styles.addInput}
+                  type='text'
+                  required
+                  placeholder='食材'
+                  onChange={inputFood}
+                  value={food}
+                />
+                <button className={styles.addButton} type='submit'>
+                  追加
+                </button>
+              </form>
+            </>
+          ) : null}
 
           <ul className={styles.Foods}>
             {newFoods.map((newfood, index) => {
@@ -123,23 +137,28 @@ const AddItem = (props) => {
           </ul>
         </li>
       )
-    } else {
+    } //FoodとBuyのフォーム
+    else {
+      let liState
+      props.add ? (liState = styles.add) : (liState = styles.closedAdd)
       return (
-        <li className={styles.add}>
-          <form className={styles.addForm} onSubmit={submitForm}>
-            <input
-              className={styles.addInput}
-              type='text'
-              autoFocus
-              required
-              onChange={inputItemName}
-              value={itemName}
-            />
-            {/* <input type='date' defaultValue={`${yyyy}-${mm}-${dd}`} /> */}
-            <button className={styles.addButton} type='submit'>
-              追加
-            </button>
-          </form>
+        <li className={liState}>
+          {props.add ? (
+            <form className={styles.addForm} onSubmit={submitForm}>
+              <input
+                className={styles.addInput}
+                type='text'
+                autoFocus={true}
+                required
+                onChange={inputItemName}
+                value={itemName}
+              />
+              {/* <input type='date' defaultValue={`${yyyy}-${mm}-${dd}`} /> */}
+              <button className={styles.addButton} type='submit'>
+                追加
+              </button>
+            </form>
+          ) : null}
         </li>
       )
     }

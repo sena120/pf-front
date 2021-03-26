@@ -414,6 +414,13 @@
   width: 95%;
   height: 40px;
   border-bottom: 1px solid #c0c0c0;
+  transition: all 0.2s;
+}
+
+.closedAdd {
+  height: 0;
+  list-style: none;
+  transition: all 0.2s;
 }
 
 .addForm {
@@ -448,8 +455,24 @@
   display: flex;
   flex-direction: column;
   width: 95%;
+  height: 80px;
+  border-bottom: 1px solid #c0c0c0;
+  transition: all 0.2s;
+}
+
+.existFoodAddMenu {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
   height: auto;
   border-bottom: 1px solid #c0c0c0;
+  transition: all 0.2s;
+}
+
+.closedAddMenu {
+  height: 0;
+  list-style: none;
+  transition: all 0.2s;
 }
 
 .addMenuForm {
@@ -457,6 +480,10 @@
   align-items: center;
   width: 100%;
   height: 40px;
+}
+
+.closedAddMenuForm {
+  display: none;
 }
 
 .Foods {
