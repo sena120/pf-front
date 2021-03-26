@@ -161,7 +161,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: auto;
+  overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -177,6 +177,7 @@
   justify-content: flex-end;
   border-bottom: 1px solid #c0c0c0;
   height: 40px;
+  min-width: 40px;
   width: 95%;
   font-size: 120%;
 }
