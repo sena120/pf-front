@@ -109,7 +109,7 @@
 .tabList {
   display: flex;
   flex-direction: row;
-  height: 5%;
+  height: 7%;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -127,7 +127,9 @@
 .category {
   margin-right: 3%;
   margin-left: 3%;
+  padding-top: 2%;
   font-weight: bold;
+  vertical-align: middle;
   cursor: pointer;
   list-style: none;
   color: #808080d8;
@@ -137,6 +139,7 @@
 .selectedCategory {
   margin-right: 3%;
   margin-left: 3%;
+  padding-top: 2%;
   font-weight: 20px;
   font-weight: bold;
   border-bottom: 2px solid #00cc00;
@@ -149,7 +152,7 @@
 /* Panels */
 
 .panel {
-  height: 90%;
+  height: 88%;
   width: 100%;
 }
 
