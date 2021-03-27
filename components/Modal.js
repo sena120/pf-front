@@ -11,7 +11,6 @@ const Modal = (props) => {
 
   useEffect(() => {
     setIsMount(true)
-    console.log('レンダー')
   }, [])
 
   //フォームに入力された値をセット
@@ -23,7 +22,7 @@ const Modal = (props) => {
   const submitForm = async (e) => {
     e.preventDefault()
     if (canSubmit) {
-      isMount ? setCanSubmit(canSubmit) : null
+      setCanSubmit(false)
       let listType
       if (props.type === 'Menu') {
         listType = 'menulists'
@@ -67,7 +66,13 @@ const Modal = (props) => {
       await axios
         .delete(`${process.env.RAILS_API}${listType}/${id}`, { params: { user_id: props.userId } })
         .then((results) => {
-          props.changeListsState(results.data.data)
+          if (results.status === 200) {
+            const listData = props.listData.slice()
+            const categoryIndex = props.listData.findIndex((category) => category.id === id)
+            listData.splice(categoryIndex, 1)
+            props.changeListsState(listData)
+          }
+          return
         })
         .catch((data) => {
           console.log(data)

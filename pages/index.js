@@ -39,7 +39,7 @@ export default function Home() {
               params: { email: userMail },
             })
             .then((results) => {
-              console.log(results.data.data)
+              // console.log(results.data.data)
               setUserId(results.data.data.id)
               setMenuLists(results.data.data.menulists)
               setFoodLists(results.data.data.foodlists)
