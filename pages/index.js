@@ -39,7 +39,7 @@ export default function Home() {
               params: { email: userMail },
             })
             .then((results) => {
-              // console.log(results.data.data)
+              console.log(results.data.data)
               setUserId(results.data.data.id)
               setMenuLists(results.data.data.menulists)
               setFoodLists(results.data.data.foodlists)
@@ -74,10 +74,18 @@ export default function Home() {
 
   //カテゴリ、アイテムの変更を反映する
   const changeListsState = (newData, action) => {
-    if (action === 'changeBuy') {
+    if (action === 'addBuyFromMenu') {
+      const listData = buyLists.slice()
+      const categoryIndex = buyLists.findIndex((category) => category.id === selectedBuyCategory)
+      listData[categoryIndex].buyitems.push(newData)
+      return setBuyLists(listData)
+    } else if (action === 'deleteBuy') {
       return setBuyLists(newData)
-    } else if (action === 'createFood') {
-      return setFoodLists(newData)
+    } else if (action === 'addFoodFromBuy') {
+      const listData = foodLists.slice()
+      const categoryIndex = foodLists.findIndex((category) => category.id === selectedFoodCategory)
+      listData[categoryIndex].fooditems.push(newData)
+      return setFoodLists(listData)
     } else {
       if (selectedList === 'Menu') {
         return setMenuLists(newData)

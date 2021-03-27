@@ -50,20 +50,25 @@ const AddItem = (props) => {
       let params
       if (props.type === 'Menu') {
         listType = 'menuitems'
-        params = { item: itemName, foods: newFoods, menulist_id: categoryId, user_id: props.userId }
+        params = { item: itemName, foods: newFoods, menulist_id: categoryId }
       }
       if (props.type === 'Food') {
         listType = 'fooditems'
-        params = { item: itemName, foodlist_id: categoryId, user_id: props.userId }
+        params = { item: itemName, foodlist_id: categoryId }
       }
       if (props.type === 'Buy') {
         listType = 'buyitems'
-        params = { item: itemName, buylist_id: categoryId, user_id: props.userId }
+        params = { item: itemName, buylist_id: categoryId }
       }
       await axios
         .post(`${process.env.RAILS_API}` + listType, params)
         .then((results) => {
-          props.changeListsState(results.data.data)
+          const listData = props.listData.slice()
+          const categoryIndex = props.listData.findIndex(
+            (category) => category.id === props.selectedCategory
+          )
+          listData[categoryIndex][`${listType}`].push(results.data.data)
+          props.changeListsState(listData)
         })
         .catch((data) => {
           console.log(data)

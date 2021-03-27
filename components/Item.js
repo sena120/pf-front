@@ -68,10 +68,9 @@ const Item = (props) => {
           .post(`${process.env.RAILS_API}buyitems/`, {
             item: buy.item,
             buylist_id: buy.buylist_id,
-            user_id: props.userId,
           })
           .then((results) => {
-            props.changeListsState(results.data.data, 'changeBuy')
+            props.changeListsState(results.data.data, 'addBuyFromMenu')
           })
           .catch((data) => {
             console.log(data)
@@ -138,8 +137,8 @@ const Item = (props) => {
         ])
         .then(
           axios.spread((postData, deleteData) => {
-            props.changeListsState(postData.data.data, 'createFood')
-            props.changeListsState(deleteData.data.data, 'changeBuy')
+            props.changeListsState(postData.data.data, 'addFoodFromBuy')
+            props.changeListsState(deleteData.data.data, 'deleteBuy')
           })
         )
         .catch((data) => {
