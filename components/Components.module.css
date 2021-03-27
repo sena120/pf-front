@@ -92,6 +92,10 @@
   flex-direction: row;
 }
 
+.modalItemForm {
+  width: 100%;
+}
+
 .modalItemInput {
   height: 30px;
   width: 100%;

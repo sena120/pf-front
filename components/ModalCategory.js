@@ -39,7 +39,7 @@ const ModalCategory = (props) => {
 
   return (
     <li className={styles.modalItem}>
-      <form onSubmit={submitNewCategory}>
+      <form className={styles.modalItemForm} onSubmit={submitNewCategory}>
         <input
           onChange={inputCategoryName}
           defaultValue={categoryName}
