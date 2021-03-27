@@ -11,10 +11,10 @@ const Item = (props) => {
   const [toBuy, setToBuy] = useState([])
   const [accordionState, setAccordionState] = useState(false) //menuアイテムのアコーディオンの状態
   const [canPushButton, setCanPushButton] = useState(true)
+  const [isMount, setIsMount] = useState(false)
 
-  let isMount = false
   useEffect(() => {
-    isMount = true
+    setIsMount(true)
   }, [])
 
   //チェック済みのアイテムを削除予定のアイテムに追加
@@ -77,6 +77,25 @@ const Item = (props) => {
           })
       })
       setToBuy([])
+      setCanPushButton(true)
+    }
+  }
+
+  //クリックされたMenuアイテムのfoodをBuyリストに追加
+  const addBuyItem = (itemName) => {
+    if (canPushButton) {
+      setCanPushButton(false)
+      axios
+        .post(`${process.env.RAILS_API}buyitems/`, {
+          item: itemName,
+          buylist_id: props.selectedBuyCategory,
+        })
+        .then((results) => {
+          props.changeListsState(results.data.data, 'addBuyFromMenu')
+        })
+        .catch((data) => {
+          console.log(data)
+        })
       setCanPushButton(true)
     }
   }
@@ -144,7 +163,6 @@ const Item = (props) => {
         .catch((data) => {
           console.log(data)
         })
-
       isMount ? setCanPushButton(true) : null
     }
   }
@@ -292,7 +310,7 @@ const Item = (props) => {
                   foodStyles = styles.openFood
                 }
                 return (
-                  <li className={styles.editFood} key={index}>
+                  <li className={styles.editFood} key={index} onClick={() => addBuyItem(food)}>
                     <div className={foodStyles}>{food}</div>
                     <div className={styles.removeFood} onClick={() => removeFood(food)}>
                       ×

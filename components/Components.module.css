@@ -391,16 +391,26 @@
   cursor: pointer;
 }
 
+.openFood:hover {
+  font-weight: bold;
+}
+
 .mutchOpenFood {
-  /* font-size: 80%; */
   color: #00cc33;
   cursor: pointer;
 }
 
+.mutchOpenFood:hover {
+  font-weight: bold;
+}
+
 .mutchOpenBuy {
-  /* font-size: 80%; */
   color: #ff6600;
   cursor: pointer;
+}
+
+.mutchOpenBuy:hover {
+  font-weight: bold;
 }
 
 .sankaku {
@@ -506,7 +516,11 @@
   cursor: pointer;
   font-weight: bold;
   font-size: 15px;
-  color: #ff0033;
+  color: #999999;
+}
+
+.removeFood:hover {
+  color: #cc0000;
 }
 
 /* Header */

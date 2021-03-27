@@ -7,10 +7,11 @@ import axios from 'axios'
 const Modal = (props) => {
   const [newCategoryName, setNewCategoryName] = useState('')
   const [canSubmit, setCanSubmit] = useState(true) //連打したとしても、リクエストを1回だけにする
+  const [isMount, setIsMount] = useState(false)
 
-  let isMount = false
   useEffect(() => {
-    isMount = true
+    setIsMount(true)
+    console.log('レンダー')
   }, [])
 
   //フォームに入力された値をセット
@@ -22,7 +23,7 @@ const Modal = (props) => {
   const submitForm = async (e) => {
     e.preventDefault()
     if (canSubmit) {
-      setCanSubmit(false)
+      isMount ? setCanSubmit(canSubmit) : null
       let listType
       if (props.type === 'Menu') {
         listType = 'menulists'
@@ -44,8 +45,6 @@ const Modal = (props) => {
         .catch((data) => {
           console.log(data)
         })
-      isMount ? setNewCategoryName('') : null
-      setCanSubmit(true)
     }
     return
   }
