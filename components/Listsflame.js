@@ -11,9 +11,9 @@ const Listsflame = (props) => {
   //選択されているリストのスタイル
   let style
   if (props.type === props.selectedList) {
-    style = styles.selectedListsContainer
+    style = styles.selectedListsFlame
   } else {
-    style = styles.listsContainer
+    style = styles.listsFlame
   }
 
   //各リストのすべてのアイテムをセットする
@@ -65,6 +65,13 @@ const Listsflame = (props) => {
     }
   }
 
+  const Loading = () => {
+    if (props.listData.length === 0) {
+      return <div className={styles.loader}></div>
+    }
+    return null
+  }
+
   return (
     <div className={style} onClick={() => props.changeList(props.type)}>
       {/* リストのタイトル */}
@@ -91,6 +98,8 @@ const Listsflame = (props) => {
           )
         })}
       </ul>
+
+      <Loading />
 
       {/* 各カテゴリのアイテム */}
       {props.listData.map((category, index) => {

@@ -51,12 +51,10 @@ const AddItem = (props) => {
       if (props.type === 'Menu') {
         listType = 'menuitems'
         params = { item: itemName, foods: newFoods, menulist_id: categoryId }
-      }
-      if (props.type === 'Food') {
+      } else if (props.type === 'Food') {
         listType = 'fooditems'
         params = { item: itemName, foodlist_id: categoryId }
-      }
-      if (props.type === 'Buy') {
+      } else if (props.type === 'Buy') {
         listType = 'buyitems'
         params = { item: itemName, buylist_id: categoryId }
       }
