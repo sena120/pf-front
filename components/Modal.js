@@ -63,12 +63,14 @@ const Modal = (props) => {
       if (props.type === 'Buy') {
         listType = 'buylists'
       }
+
+      const listData = props.listData.slice()
+      const categoryIndex = props.listData.findIndex((category) => category.id === id)
+
       await axios
         .delete(`${process.env.RAILS_API}${listType}/${id}`, { params: { user_id: props.userId } })
         .then((results) => {
           if (results.status === 200) {
-            const listData = props.listData.slice()
-            const categoryIndex = props.listData.findIndex((category) => category.id === id)
             listData.splice(categoryIndex, 1)
             props.changeListsState(listData)
           }
@@ -77,6 +79,7 @@ const Modal = (props) => {
         .catch((data) => {
           console.log(data)
         })
+      props.changeCategory(listData.slice(-1)[0].id, props.type)
     }
   }
 
@@ -87,6 +90,8 @@ const Modal = (props) => {
           className={styles.modalAddInput}
           onChange={inputCategoryName}
           value={newCategoryName}
+          required
+          autoFocus
         />
         <button type='submit' className={styles.editButton}>
           追加

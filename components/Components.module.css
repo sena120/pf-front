@@ -136,7 +136,7 @@
   vertical-align: middle;
   cursor: pointer;
   list-style: none;
-  color: #808080d8;
+  color: #999999;
   display: inline-block;
 }
 
@@ -241,6 +241,15 @@
   display: none;
 }
 
+.noExistItems {
+  margin-top: 20%;
+  width: 90%;
+  height: 20%;
+  color: #999999;
+  font-weight: bold;
+  text-align: center;
+}
+
 /* item */
 .item {
   list-style: none;
@@ -310,7 +319,6 @@
 }
 
 .itemButton {
-  height: fit-content;
   width: 10%;
   cursor: pointer;
   margin: auto;

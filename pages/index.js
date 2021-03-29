@@ -247,22 +247,24 @@ export default function Home() {
           {openHumberger ? (
             <div className={humbergerNavStyle}>
               <div className={styles.closeHum} onClick={toggleHumberger}>
-                x
+                close
               </div>
-              <nav>
+              <nav className={styles.humNav}>
                 <ul className={styles.humUl}>
                   <li className={styles.humLi}>
                     <Link href='/header/about'>
-                      <a>About</a>
+                      <a className={styles.humString}>About</a>
                     </Link>
                   </li>
                   <li className={styles.humLi}>
                     <Link href='/header/help'>
-                      <a>Help</a>
+                      <a className={styles.humString}>Help</a>
                     </Link>
                   </li>
                   <li className={styles.humLi}>
-                    <span onClick={logOut}>ログアウト</span>
+                    <span className={styles.humString} onClick={logOut}>
+                      ログアウト
+                    </span>
                   </li>
                 </ul>
               </nav>

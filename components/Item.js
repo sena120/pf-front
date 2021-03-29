@@ -140,10 +140,10 @@ const Item = (props) => {
   }
 
   //BuyリストからFoodリストに追加し、自身を削除する
-  const addToFoodList = async () => {
+  const addToFoodList = () => {
     if (canPushButton) {
       setCanPushButton(false)
-      await axios
+      axios
         .all([
           axios.post(`${process.env.RAILS_API}fooditems`, {
             item: props.item.item,
@@ -163,7 +163,7 @@ const Item = (props) => {
         .catch((data) => {
           console.log(data)
         })
-      isMount ? setCanPushButton(true) : null
+      setCanPushButton(true)
     }
   }
 
@@ -310,8 +310,10 @@ const Item = (props) => {
                   foodStyles = styles.openFood
                 }
                 return (
-                  <li className={styles.editFood} key={index} onClick={() => addBuyItem(food)}>
-                    <div className={foodStyles}>{food}</div>
+                  <li className={styles.editFood} key={index}>
+                    <div className={foodStyles} onClick={() => addBuyItem(food)}>
+                      {food}
+                    </div>
                     <div className={styles.removeFood} onClick={() => removeFood(food)}>
                       ×
                     </div>
@@ -347,6 +349,21 @@ const Item = (props) => {
     )
   } //Foodのアイテム
   else if (props.type === 'Food') {
+    const ActionBUtton = () => {
+      if (props.searchWord !== props.item.item) {
+        return (
+          <span className={styles.itemButton} onClick={() => props.searchButton(props.item.item)}>
+            <Image src='/icon_139170_256.png' height={20} width={20} />
+          </span>
+        )
+      } else {
+        return (
+          <span className={styles.itemButton} onClick={() => props.searchButton('')}>
+            <Image src='/ノーマルの太さのバツアイコン.png' height={18} width={18} />
+          </span>
+        )
+      }
+    }
     let itemStyle
     let inputStyles
     if (props.searchWord === props.item.item) {
@@ -368,9 +385,7 @@ const Item = (props) => {
           />
           {/* <input className={styles.itemDate} type='date' /> */}
         </form>
-        <span className={styles.itemButton} onClick={() => props.searchButton(props.item.item)}>
-          <Image src='/icon_139170_256.png' height={20} width={20} />
-        </span>
+        <ActionBUtton />
         <input
           className={styles.checkBox}
           type='checkbox'

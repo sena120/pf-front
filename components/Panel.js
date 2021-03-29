@@ -2,12 +2,24 @@ import React from 'react'
 import Item from './Item'
 import styles from './Components.module.css'
 import AddItem from './AddItem'
-import { useState } from 'react'
 
 const Panel = (props) => {
   if (props.categoryId === props.selectedCategory) {
+    const ExistItems = () => {
+      if (props.items.length > 0) {
+        return null
+      } else {
+        return (
+          <div className={styles.noExistItems}>
+            <p>アイテムがまだありません。</p>
+            <p>追加してください。</p>
+          </div>
+        )
+      }
+    }
+
     return (
-      <div className={styles.panel}>
+      <div className={styles.panel} onClick={props.closeModal}>
         <ul className={styles.ul}>
           <AddItem
             items={props.items}
@@ -39,6 +51,8 @@ const Panel = (props) => {
               />
             )
           })}
+
+          <ExistItems />
         </ul>
       </div>
     )

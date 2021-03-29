@@ -101,16 +101,37 @@
 
 .closeHum {
   height: 5%;
+  text-align: center;
+  background-color: #cccccc;
+  cursor: pointer;
+}
+
+.humNav {
+  height: 95%;
 }
 
 .humUl {
   padding: 0;
+  margin: 0;
   height: 100%;
 }
 
 .humLi {
   margin-left: 5%;
+  height: 40px;
   list-style: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.humLi:hover {
+  color: #00cc33;
+}
+
+.humString {
+  display: block;
+  height: 100%;
+  font-size: 20px;
 }
 
 .serch {

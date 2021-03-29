@@ -44,6 +44,11 @@ const Listsflame = (props) => {
     setModalState(!modalState)
   }
 
+  //モーダルを閉じる処理
+  const closeModal = () => {
+    if (modalState) setModalState(false)
+  }
+
   const ModalState = () => {
     if (modalState && props.type === props.selectedList) {
       return (
@@ -52,6 +57,7 @@ const Listsflame = (props) => {
           userId={props.userId}
           listData={props.listData}
           toggleModal={toggleModal}
+          changeCategory={props.changeCategory}
           changeListsState={props.changeListsState}
         />
       )
@@ -65,6 +71,7 @@ const Listsflame = (props) => {
     }
   }
 
+  //ローディング中ならローディングアイコンを表示する
   const Loading = () => {
     if (props.listData.length === 0) {
       return <div className={styles.loader}></div>
@@ -75,7 +82,7 @@ const Listsflame = (props) => {
   return (
     <div className={style} onClick={() => props.changeList(props.type)}>
       {/* リストのタイトル */}
-      <div className={styles.listHeader}>
+      <div className={styles.listHeader} onClick={closeModal}>
         <h3 className={styles.listTitle}>{props.type}</h3>
         <div className={styles.listTools} onClick={toggleModal}>
           ...
@@ -85,7 +92,7 @@ const Listsflame = (props) => {
       <ModalState />
 
       {/* 各リストのカテゴリ */}
-      <ul className={styles.tabList}>
+      <ul className={styles.tabList} onClick={closeModal}>
         {props.listData.map((category) => {
           return (
             <Category
@@ -131,6 +138,7 @@ const Listsflame = (props) => {
             selectedBuyCategory={props.selectedBuyCategory}
             selectedFoodCategory={props.selectedFoodCategory}
             changeListsState={props.changeListsState}
+            closeModal={closeModal}
           />
         )
       })}
