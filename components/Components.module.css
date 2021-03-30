@@ -328,7 +328,7 @@
 .checkBox {
   margin: auto;
   width: 10%;
-  height: 40%;
+  height: 50%;
   margin-left: 1%;
 }
 
@@ -447,18 +447,18 @@
 }
 
 .food {
-  margin-right: 2%;
+  margin-right: 3%;
   font-size: 80%;
 }
 
 .mutchFood {
-  margin-right: 2%;
+  margin-right: 3%;
   font-size: 80%;
   color: #00cc33;
 }
 
 .mutchBuy {
-  margin-right: 2%;
+  margin-right: 3%;
   font-size: 80%;
   color: #ff6600;
 }

@@ -78,21 +78,21 @@ export default function Home() {
       const listData = buyLists.slice()
       const categoryIndex = buyLists.findIndex((category) => category.id === selectedBuyCategory)
       listData[categoryIndex].buyitems.push(newData)
-      return setBuyLists(listData)
+      setBuyLists(listData)
     } else if (action === 'deleteBuy') {
-      return setBuyLists(newData)
+      setBuyLists(newData)
     } else if (action === 'addFoodFromBuy') {
       const listData = foodLists.slice()
       const categoryIndex = foodLists.findIndex((category) => category.id === selectedFoodCategory)
       listData[categoryIndex].fooditems.push(newData)
-      return setFoodLists(listData)
+      setFoodLists(listData)
     } else {
       if (selectedList === 'Menu') {
-        return setMenuLists(newData)
+        setMenuLists(newData)
       } else if (selectedList === 'Food') {
-        return setFoodLists(newData)
+        setFoodLists(newData)
       } else if (selectedList === 'Buy') {
-        return setBuyLists(newData)
+        setBuyLists(newData)
       }
     }
   }

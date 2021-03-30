@@ -51,8 +51,12 @@ const Item = (props) => {
               { item: fod, buylist_id: props.selectedBuyCategory }
             )
           } else {
-            const toBuyFood = { item: fod, buylist_id: props.selectedBuyCategory }
-            toBuy.push(toBuyFood)
+            toBuy.push({ item: fod, buylist_id: props.selectedBuyCategory })
+          }
+        } else {
+          if (toBuy.some((item) => item.item === fod)) {
+            const toBuyIndex = toBuy.findIndex((item) => item.item === fod)
+            toBuy.splice(toBuyIndex, 1)
           }
         }
       })
@@ -60,7 +64,7 @@ const Item = (props) => {
   }
 
   //Menuアイテムのリストに存在しないfoodsをBuyリストに追加
-  const createNewBuyItems = () => {
+  const createNewBuyItems = async () => {
     if (canPushButton) {
       setCanPushButton(false)
       toBuy.map((buy) => {
@@ -103,6 +107,7 @@ const Item = (props) => {
   //Menuアイテムのfoodsを追加
   const addFood = (e) => {
     e.preventDefault()
+    toBuy.push({ item: food, buylist_id: props.selectedBuyCategory })
     const newArray = foods.slice()
     newArray.push(food)
     setFoods(newArray)
@@ -113,6 +118,10 @@ const Item = (props) => {
   //Menuアイテムのfoodsを削除
   const removeFood = (food) => {
     const findFood = (element) => element === food
+
+    const toBuyIndex = toBuy.findIndex(findFood)
+    toBuy.splice(toBuyIndex, 1)
+
     const idIndex = foods.findIndex(findFood)
     const newArray = foods.slice()
     newArray.splice(idIndex, 1)
