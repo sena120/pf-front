@@ -35,12 +35,20 @@
   margin-right: 30%;
   margin-left: 40%;
   text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .listTools {
   width: 10%;
   cursor: pointer;
   font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .modal {
@@ -138,6 +146,10 @@
   list-style: none;
   color: #999999;
   display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .selectedCategory {
@@ -151,6 +163,10 @@
   list-style: none;
   color: #00cc00;
   display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .loader {

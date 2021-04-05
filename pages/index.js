@@ -301,6 +301,7 @@ export default function Home() {
         <Listsflame
           type='Menu'
           add={addState}
+          toggleAdd={toggleAdd}
           userId={userId}
           listData={menuLists}
           allFoodItems={allFoodItems}
@@ -320,6 +321,7 @@ export default function Home() {
           scroll={true}
           type='Food'
           add={addState}
+          toggleAdd={toggleAdd}
           userId={userId}
           listData={foodLists}
           allItems={allFoodItems}
@@ -338,6 +340,7 @@ export default function Home() {
           type='Buy'
           add={addState}
           userId={userId}
+          toggleAdd={toggleAdd}
           listData={buyLists}
           allItems={allBuyItems}
           setAllBuyItems={setAllBuyItems}
