@@ -223,7 +223,7 @@ export default function Home() {
         </style>
       </Head>
       {/* Header */}
-      <header className={styles.title}>
+      <header className={styles.header}>
         <h2 className={styles.titleName}>Foodlist</h2>
         {/* whithが905px以上 */}
         <nav className={styles.headerNavi}>
