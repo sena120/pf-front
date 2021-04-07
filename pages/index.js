@@ -111,25 +111,29 @@ export default function Home() {
       listType = 'buyitems'
       ids = deleteBuyItems
     }
-    await axios
-      .delete(`${process.env.RAILS_API}${listType}/${ids}`, {
-        params: { ids: ids, user_id: userId },
-      })
-      .then((results) => {
-        if (selectedList === 'Menu') {
-          setDeleteMenuItems([])
-          setMenuLists(results.data.data)
-        } else if (selectedList === 'Food') {
-          setDeleteFoodItems([])
-          setFoodLists(results.data.data)
-        } else if (selectedList === 'Buy') {
-          setDeleteBuyItems([])
-          setBuyLists(results.data.data)
-        }
-      })
-      .catch((data) => {
-        console.log(data)
-      })
+    if (ids.length === 0) {
+      return
+    } else {
+      await axios
+        .delete(`${process.env.RAILS_API}${listType}/${ids}`, {
+          params: { ids: ids, user_id: userId },
+        })
+        .then((results) => {
+          if (selectedList === 'Menu') {
+            setDeleteMenuItems([])
+            setMenuLists(results.data.data)
+          } else if (selectedList === 'Food') {
+            setDeleteFoodItems([])
+            setFoodLists(results.data.data)
+          } else if (selectedList === 'Buy') {
+            setDeleteBuyItems([])
+            setBuyLists(results.data.data)
+          }
+        })
+        .catch((data) => {
+          console.log(data)
+        })
+    }
   }
 
   //選択されているリストを判定する処理
@@ -284,8 +288,9 @@ export default function Home() {
         />
       </form>
 
-      {/* アイテム追加ボタン */}
+      {/* ボタン */}
       <div className={styles.buttons}>
+        {/* アイテム追加ボタン */}
         <div className={styles.add} onClick={toggleAdd}>
           <div>+</div>
         </div>
@@ -297,11 +302,10 @@ export default function Home() {
       </div>
 
       {/* 各リスト */}
-      <main className={styles.listsContainer}>
+      <main className={styles.lists}>
         <Listsflame
           type='Menu'
           add={addState}
-          toggleAdd={toggleAdd}
           userId={userId}
           listData={menuLists}
           allFoodItems={allFoodItems}
@@ -321,7 +325,6 @@ export default function Home() {
           scroll={true}
           type='Food'
           add={addState}
-          toggleAdd={toggleAdd}
           userId={userId}
           listData={foodLists}
           allItems={allFoodItems}
@@ -340,7 +343,6 @@ export default function Home() {
           type='Buy'
           add={addState}
           userId={userId}
-          toggleAdd={toggleAdd}
           listData={buyLists}
           allItems={allBuyItems}
           setAllBuyItems={setAllBuyItems}

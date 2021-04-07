@@ -80,11 +80,7 @@ const Listsflame = (props) => {
   }
 
   return (
-    <div
-      className={style}
-      onClick={() => props.changeList(props.type)}
-      onDoubleClick={props.toggleAdd}
-    >
+    <div className={style} onClick={() => props.changeList(props.type)}>
       {/* リストのタイトル */}
       <div className={styles.listHeader} onClick={closeModal}>
         <h3 className={styles.listTitle}>{props.type}</h3>
