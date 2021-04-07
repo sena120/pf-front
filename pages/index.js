@@ -290,14 +290,13 @@ export default function Home() {
 
       {/* ボタン */}
       <div className={styles.buttons}>
-        {/* アイテム追加ボタン */}
-        <div className={styles.add} onClick={toggleAdd}>
-          <div>+</div>
-        </div>
-
         {/* アイテム削除ボタン */}
         <div className={styles.delete} onClick={deleteItem}>
           <Image src='/icon_119870_128.png' height={30} width={30} quality={100} />
+        </div>
+        {/* アイテム追加ボタン */}
+        <div className={styles.add} onClick={toggleAdd}>
+          <div>+</div>
         </div>
       </div>
 
