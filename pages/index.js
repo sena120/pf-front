@@ -50,6 +50,8 @@ export default function Home() {
             })
         }
         getData()
+        const scrollArea = document.getElementById('scroll-area')
+        scrollArea.scrollTo((900 - scrollArea.offsetWidth) / 2, 0)
       } else {
         router.push('/login')
       }
@@ -191,6 +193,20 @@ export default function Home() {
     setOpenHumberger(!openHumberger)
   }
 
+  //スマホでフリックしたら選択されているリストを変更する
+  const scrollMain = () => {
+    const scrollArea = document.getElementById('scroll-area')
+    const scrollWidth = 900 - scrollArea.offsetWidth
+    const scroll = scrollArea.scrollLeft
+    if (scroll < scrollWidth / 3) {
+      setSelectedList('Menu')
+    } else if (scroll > (scrollWidth / 3) * 2) {
+      setSelectedList('Buy')
+    } else {
+      setSelectedList('Food')
+    }
+  }
+
   //ログアウトして、ログインページへ遷移する
   const logOut = async () => {
     try {
@@ -301,7 +317,7 @@ export default function Home() {
       </div>
 
       {/* 各リスト */}
-      <main className={styles.lists}>
+      <main className={styles.lists} id={'scroll-area'} onScroll={scrollMain}>
         <Listsflame
           type='Menu'
           add={addState}
