@@ -138,7 +138,7 @@ export default function Home() {
     }
   }
 
-  //選択されているリストを判定する処理
+  //選択されているリストを変更する処理
   const changeList = (type) => {
     if (type !== selectedList) {
       setSelectedList(type)
@@ -199,10 +199,13 @@ export default function Home() {
     const scrollWidth = 900 - scrollArea.offsetWidth
     const scroll = scrollArea.scrollLeft
     if (scroll < scrollWidth / 3) {
+      if (selectedList !== 'Menu') setAddState(false)
       setSelectedList('Menu')
     } else if (scroll > (scrollWidth / 3) * 2) {
+      if (selectedList !== 'Buy') setAddState(false)
       setSelectedList('Buy')
     } else {
+      if (selectedList !== 'Food') setAddState(false)
       setSelectedList('Food')
     }
   }
