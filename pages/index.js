@@ -143,6 +143,24 @@ export default function Home() {
     if (type !== selectedList) {
       setSelectedList(type)
       setAddState(false) //他のリストが選択されたとき、Addを閉じる
+      scrollList(type)
+    }
+  }
+
+  //リストがタッチされたらスクロールする処理
+  const scrollList = (type) => {
+    const scrollArea = document.getElementById('scroll-area')
+    const scrollWidth = 900 - scrollArea.offsetWidth
+    if (type === 'Menu') {
+      scrollArea.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      })
+    } else if (type === 'Food') {
+      scrollArea.scrollTo({ top: 0, left: (900 - scrollArea.offsetWidth) / 2, behavior: 'smooth' })
+    } else if (type === 'Buy') {
+      scrollArea.scrollTo({ top: 0, left: scrollWidth, behavior: 'smooth' })
     }
   }
 
@@ -324,6 +342,7 @@ export default function Home() {
         <Listsflame
           type='Menu'
           add={addState}
+          toggleAdd={toggleAdd}
           userId={userId}
           listData={menuLists}
           allFoodItems={allFoodItems}
@@ -340,9 +359,9 @@ export default function Home() {
         />
 
         <Listsflame
-          scroll={true}
           type='Food'
           add={addState}
+          toggleAdd={toggleAdd}
           userId={userId}
           listData={foodLists}
           allItems={allFoodItems}
@@ -360,6 +379,7 @@ export default function Home() {
         <Listsflame
           type='Buy'
           add={addState}
+          toggleAdd={toggleAdd}
           userId={userId}
           listData={buyLists}
           allItems={allBuyItems}

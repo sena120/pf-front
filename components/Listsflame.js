@@ -83,7 +83,9 @@ const Listsflame = (props) => {
     <div className={style} onClick={() => props.changeList(props.type)}>
       {/* リストのタイトル */}
       <div className={styles.listHeader} onClick={closeModal}>
-        <h3 className={styles.listTitle}>{props.type}</h3>
+        <h3 className={styles.listTitle} onClick={props.toggleAdd}>
+          {props.type}
+        </h3>
         <div className={styles.listTools} onClick={toggleModal}>
           ...
         </div>
