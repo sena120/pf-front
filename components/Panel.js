@@ -1,9 +1,29 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import Item from './Item'
 import styles from './Components.module.css'
 import AddItem from './AddItem'
 
 const Panel = (props) => {
+  let items = props.items
+
+  //検索された食材と一致するMenuアイテムを先頭に持ってくる
+  if (props.type === 'Menu' && props.searchWord) {
+    const sortItems = []
+    const noMutchItems = []
+
+    props.items.map((item) => {
+      if (item.foods.includes(props.searchWord)) {
+        sortItems.push(item)
+      } else {
+        noMutchItems.push(item)
+      }
+    })
+
+    items = sortItems.concat(noMutchItems)
+  }
+
+  //アイテムがなかった場合に表示するコンポーネント
   if (props.categoryId === props.selectedCategory) {
     const ExistItems = () => {
       if (props.items.length > 0) {
@@ -31,7 +51,7 @@ const Panel = (props) => {
             selectedCategory={props.selectedCategory}
             changeListsState={props.changeListsState}
           />
-          {props.items.map((item) => {
+          {items.map((item) => {
             return (
               <Item
                 item={item}
