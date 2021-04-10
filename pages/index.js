@@ -216,10 +216,10 @@ export default function Home() {
     const scrollArea = document.getElementById('scroll-area')
     const scrollWidth = 900 - scrollArea.offsetWidth
     const scroll = scrollArea.scrollLeft
-    if (scroll < scrollWidth / 3) {
+    if (scroll < scrollWidth / 4) {
       if (selectedList !== 'Menu') setAddState(false)
       setSelectedList('Menu')
-    } else if (scroll > (scrollWidth / 3) * 2) {
+    } else if (scroll > (scrollWidth / 4) * 3) {
       if (selectedList !== 'Buy') setAddState(false)
       setSelectedList('Buy')
     } else {
