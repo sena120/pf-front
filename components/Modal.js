@@ -79,7 +79,10 @@ const Modal = (props) => {
         .catch((data) => {
           console.log(data)
         })
-      props.changeCategory(listData.slice(-1)[0].id, props.type)
+
+      if (props.selectedCategory === id) {
+        props.changeCategory(listData[categoryIndex - 1].id, props.type)
+      }
     }
   }
 

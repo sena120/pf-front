@@ -58,6 +58,7 @@ const Listsflame = (props) => {
           listData={props.listData}
           toggleModal={toggleModal}
           changeCategory={props.changeCategory}
+          selectedCategory={props.selectedCategory}
           changeListsState={props.changeListsState}
         />
       )
