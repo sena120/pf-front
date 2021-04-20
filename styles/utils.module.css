@@ -264,6 +264,7 @@
   }
 
   .buttons {
+    width: 100%;
     position: relative;
     top: 76%;
     height: 5%;
@@ -271,6 +272,30 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+  }
+
+  .delete {
+    width: 30%;
+    height: 45px;
+    margin-right: 5%;
+    padding-top: 5px;
+    cursor: pointer;
+    text-align: center;
+    border: 2px solid #cccccc;
+    border-radius: 100px;
+  }
+
+  .add {
+    width: 30%;
+    height: 45px;
+    line-height: 45px;
+    cursor: pointer;
+    border: 2px solid #cccccc;
+    border-radius: 100px;
+    font-size: 30px;
+    color: #666666;
+    font-weight: bold;
+    text-align: center;
   }
 }
 

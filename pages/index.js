@@ -333,7 +333,7 @@ export default function Home() {
         </div>
         {/* アイテム追加ボタン */}
         <div className={styles.add} onClick={toggleAdd}>
-          <div>+</div>
+          +
         </div>
       </div>
 
