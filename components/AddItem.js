@@ -36,6 +36,15 @@ const AddItem = (props) => {
     setNewFoods(newArray)
   }
 
+  const checkFoods = () => {
+    if (newFoods.length < 1) {
+      alert('食材を1つ以上追加してください。')
+      return false
+    } else {
+      return true
+    }
+  }
+
   const date = new Date()
   const yyyy = date.getFullYear()
   const mm = ('0' + (date.getMonth() + 1)).slice(-2)
@@ -49,8 +58,13 @@ const AddItem = (props) => {
       let listType
       let params
       if (props.type === 'Menu') {
-        listType = 'menuitems'
-        params = { item: itemName, foods: newFoods, menulist_id: categoryId }
+        if (checkFoods() === false) {
+          setCanSubmit(true)
+          return
+        } else {
+          listType = 'menuitems'
+          params = { item: itemName, foods: newFoods, menulist_id: categoryId }
+        }
       } else if (props.type === 'Food') {
         listType = 'fooditems'
         params = { item: itemName, foodlist_id: categoryId }
@@ -106,7 +120,7 @@ const AddItem = (props) => {
                   onChange={inputItemName}
                   value={itemName}
                 />
-                <button className={styles.addButton} type='submit' disabled={newFoods.length === 0}>
+                <button className={styles.addButton} type='submit'>
                   追加
                 </button>
               </form>

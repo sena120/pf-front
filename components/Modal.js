@@ -94,7 +94,6 @@ const Modal = (props) => {
           onChange={inputCategoryName}
           value={newCategoryName}
           required
-          autoFocus
         />
         <button type='submit' className={styles.editButton}>
           追加
