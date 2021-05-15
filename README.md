@@ -1,4 +1,4 @@
-## Getting Started
+## 簡易仕様書
 
 First, run the development server:
 
